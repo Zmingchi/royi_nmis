@@ -1,6 +1,0 @@
-package com.ydl.nmis.schedule.mapper;
-
-public interface ScheDayData {
-
-
-}
