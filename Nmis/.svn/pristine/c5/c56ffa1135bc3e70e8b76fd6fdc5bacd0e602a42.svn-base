@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.schedule.mapper.NmisScheDictMapper">
+
+    <resultMap type="NmisScheDict" id="NmisScheDictResult">
+        <result property="id"    column="id"    />
+        <result property="scheName"    column="sche_name"    />
+        <result property="scheDesc"    column="sche_desc"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="beginTime1"    column="begin_time1"    />
+        <result property="endTime1"    column="end_time1"    />
+        <result property="hours"    column="hours"    />
+        <result property="classId"    column="class_id"    />
+        <result property="inputCode"    column="input_code"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="scheColor"    column="sche_color"    />
+        <result property="deptCode"    column="dept_code"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="scheType"    column="sche_type"    />
+    </resultMap>
+
+    <sql id="selectNmisScheDictVo">
+        select id, sche_name, sche_desc, begin_time, end_time, begin_time1, end_time1, hours, class_id, input_code, serial_no, status, del_flag, revision, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code, sche_color, dept_code, dept_name, sche_type from nmis.nmis_sche_dict
+        where del_flag = 0 and status = '0'
+    </sql>
+
+    <select id="selectNmisScheDictList" parameterType="NmisScheDict" resultMap="NmisScheDictResult">
+        <include refid="selectNmisScheDictVo"/>
+        <where>
+            <if test="scheName != null  and scheName != ''"> and sche_name like concat(concat('%', #{scheName}), '%')</if>
+            <if test="scheDesc != null  and scheDesc != ''"> and sche_desc = #{scheDesc}</if>
+            <if test="beginTime != null  and beginTime != ''"> and begin_time = #{beginTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="beginTime1 != null  and beginTime1 != ''"> and begin_time1 = #{beginTime1}</if>
+            <if test="endTime1 != null  and endTime1 != ''"> and end_time1 = #{endTime1}</if>
+            <if test="hours != null "> and hours = #{hours}</if>
+            <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
+            <if test="inputCode != null  and inputCode != ''"> and input_code = #{inputCode}</if>
+            <if test="serialNo != null "> and serial_no = #{serialNo}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="revision != null "> and revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+            <if test="scheColor != null  and scheColor != ''"> and sche_color = #{scheColor}</if>
+            <if test="deptCode != null  and deptCode != ''"> and dept_code = #{deptCode}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="scheType != null  and scheType != ''"> and sche_type = #{scheType}</if>
+        </where>
+    </select>
+
+    <select id="selectNmisScheDictById" parameterType="String" resultMap="NmisScheDictResult">
+        <include refid="selectNmisScheDictVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNmisScheDict" parameterType="NmisScheDict" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            select  nmis.seq_sche_dict.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_sche_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="scheName != null">sche_name,</if>
+            <if test="scheDesc != null">sche_desc,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="beginTime1 != null">begin_time1,</if>
+            <if test="endTime1 != null">end_time1,</if>
+            <if test="hours != null">hours,</if>
+            <if test="classId != null">class_id,</if>
+            <if test="inputCode != null">input_code,</if>
+            <if test="serialNo != null">serial_no,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+            <if test="scheColor != null">sche_color,</if>
+            <if test="deptCode != null">dept_code,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="scheType != null">sche_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="scheName != null">#{scheName},</if>
+            <if test="scheDesc != null">#{scheDesc},</if>
+            <if test="beginTime != null">#{beginTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="beginTime1 != null">#{beginTime1},</if>
+            <if test="endTime1 != null">#{endTime1},</if>
+            <if test="hours != null">#{hours},</if>
+            <if test="classId != null">#{classId},</if>
+            <if test="inputCode != null">#{inputCode},</if>
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+            <if test="scheColor != null">#{scheColor},</if>
+            <if test="deptCode != null">#{deptCode},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="scheType != null">#{scheType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNmisScheDict" parameterType="NmisScheDict">
+        update nmis.nmis_sche_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scheName != null">sche_name = #{scheName},</if>
+            <if test="scheDesc != null">sche_desc = #{scheDesc},</if>
+            <if test="beginTime != null">begin_time = #{beginTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="beginTime1 != null">begin_time1 = #{beginTime1},</if>
+            <if test="endTime1 != null">end_time1 = #{endTime1},</if>
+            <if test="hours != null">hours = #{hours},</if>
+            <if test="classId != null">class_id = #{classId},</if>
+            <if test="inputCode != null">input_code = #{inputCode},</if>
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+            <if test="scheColor != null">sche_color = #{scheColor},</if>
+            <if test="deptCode != null">dept_code = #{deptCode},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="scheType != null">sche_type = #{scheType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisScheDictById" parameterType="String">
+        delete from nmis.nmis_sche_dict where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisScheDictByIds" parameterType="String">
+        delete from nmis.nmis_sche_dict where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

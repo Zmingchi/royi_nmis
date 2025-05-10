@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.system.mapper.SysUserDeptMapper">
+    
+    <resultMap type="SysUserDept" id="SysUserDeptResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="deptCode"    column="dept_code"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectSysUserDeptVo">
+        select id, user_id, user_name, dept_code, dept_name from ydladmin.sys_user_dept
+    </sql>
+
+    <select id="selectSysUserDeptList" parameterType="SysUserDept" resultMap="SysUserDeptResult">
+        <include refid="selectSysUserDeptVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="deptCode != null  and deptCode != ''"> and dept_code = #{deptCode}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysUserDeptById" parameterType="String" resultMap="SysUserDeptResult">
+        <include refid="selectSysUserDeptVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysUserDept" parameterType="SysUserDept" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            select ydladmin.seq_sys_user_dept.nextval as id from DUAL
+        </selectKey>
+        insert into ydladmin.sys_user_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != 0">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="deptCode != null">dept_code,</if>
+            <if test="deptName != null">dept_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="deptCode != null">#{deptCode},</if>
+            <if test="deptName != null">#{deptName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysUserDept" parameterType="SysUserDept">
+        update ydladmin.sys_user_dept
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="deptCode != null">dept_code = #{deptCode},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysUserDeptById" parameterType="String">
+        delete from ydladmin.sys_user_dept where id = #{id}
+    </delete>
+
+    <delete id="deleteSysUserDeptByIds" parameterType="String">
+        delete from sys_user_dept where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

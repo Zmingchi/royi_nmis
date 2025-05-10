@@ -1,0 +1,14 @@
+package com.ydl.nmis.hr.service;
+
+import com.ydl.nmis.hr.dto.NmisHrCoat;
+
+import java.util.List;
+
+public interface INmisHrClothesService {
+
+    /**
+     * 根据科室码，衣服类型类型查询下面
+     *@param nmisHrCoat 上衣统计信息
+     */
+    public List<NmisHrCoat> selectNmisHrCoat(NmisHrCoat nmisHrCoat);
+}

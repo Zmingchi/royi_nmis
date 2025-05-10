@@ -1,0 +1,97 @@
+package com.ydl.nmis.hr.service.impl;
+
+
+import java.util.List;
+
+import com.ydl.nmis.hr.domain.NmisHrCertificate;
+import com.ydl.nmis.hr.mapper.NmisHrCertificateMapper;
+import com.ydl.nmis.hr.service.INmisHrCertificateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+/**
+ * 护理人员证书获得情况Service业务层处理
+ *
+ * @author ydl
+ * @date 2025-03-05
+ */
+@Service
+public class NmisHrCertificateServiceImpl implements INmisHrCertificateService
+{
+    @Autowired
+    private NmisHrCertificateMapper nmisHrCertificateMapper;
+
+    /**
+     * 查询护理人员证书获得情况
+     *
+     * @param id 护理人员证书获得情况主键
+     * @return 护理人员证书获得情况
+     */
+    @Override
+    public NmisHrCertificate selectNmisHrCertificateById(Long id)
+    {
+        return nmisHrCertificateMapper.selectNmisHrCertificateById(id);
+    }
+
+    /**
+     * 查询护理人员证书获得情况列表
+     *
+     * @param nmisHrCertificate 护理人员证书获得情况
+     * @return 护理人员证书获得情况
+     */
+    @Override
+    public List<NmisHrCertificate> selectNmisHrCertificateList(NmisHrCertificate nmisHrCertificate)
+    {
+        return nmisHrCertificateMapper.selectNmisHrCertificateList(nmisHrCertificate);
+    }
+
+    /**
+     * 新增护理人员证书获得情况
+     *
+     * @param nmisHrCertificate 护理人员证书获得情况
+     * @return 结果
+     */
+    @Override
+    public int insertNmisHrCertificate(NmisHrCertificate nmisHrCertificate)
+    {
+        return nmisHrCertificateMapper.insertNmisHrCertificate(nmisHrCertificate);
+    }
+
+    /**
+     * 修改护理人员证书获得情况
+     *
+     * @param nmisHrCertificate 护理人员证书获得情况
+     * @return 结果
+     */
+    @Override
+    public int updateNmisHrCertificate(NmisHrCertificate nmisHrCertificate)
+    {
+        return nmisHrCertificateMapper.updateNmisHrCertificate(nmisHrCertificate);
+    }
+
+    /**
+     * 批量删除护理人员证书获得情况
+     *
+     * @param ids 需要删除的护理人员证书获得情况主键
+     * @return 结果
+     */
+    @Override
+    public int deleteNmisHrCertificateByIds(Long[] ids)
+    {
+        return nmisHrCertificateMapper.deleteNmisHrCertificateByIds(ids);
+    }
+
+    /**
+     * 删除护理人员证书获得情况信息
+     *
+     * @param id 护理人员证书获得情况主键
+     * @return 结果
+     */
+    @Override
+    public int deleteNmisHrCertificateById(Long id)
+    {
+        return nmisHrCertificateMapper.deleteNmisHrCertificateById(id);
+    }
+}
+

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.schedule.mapper.NmisScheGroupUserDictMapper">
+
+    <resultMap type="NmisScheGroupUserDict" id="NmisScheGroupUserDictResult">
+        <result property="groupId"    column="id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+
+    <sql id="selectNmisScheGroupUserDictVo">
+        select a.id,
+               a.group_name,
+               c.user_name,
+               a.dept_id,
+               a.dept_name,
+               a.del_flag
+        from nmis.nmis_sche_user_group a
+                 left join (select a.group_id,
+                                   listagg(b.name, ',') within group(order by a.group_id) as user_name
+                            from nmis.nmis_sche_group_user a
+                                left join nmis.nmis_hr_user b
+                            on a.user_id = b.nurse_id
+                            group by a.group_id) c
+                           on a.id = c.group_id
+
+
+    </sql>
+
+
+
+    <sql id="selectNmisScheGroupUserDictop">
+        select a.id,a.group_name,c.user_id,b.name,a.dept_id,a.dept_name,a.del_flag
+        from nmis.nmis_sche_user_group a
+             left join nmis.nmis_sche_group_user c on a.id = c.group_id
+             left join nmis.nmis_hr_user b on c.user_id = b.nurse_id
+
+    </sql>
+
+    <select id="selectScheGroupUserDictList" parameterType="NmisScheGroupUserDict" resultMap="NmisScheGroupUserDictResult">
+        <include refid="selectNmisScheGroupUserDictVo"/>
+        <where>
+            <if test="id != null  and id != ''"> and a.id = #{groupId}</if>
+            <if test="groupName != null  and groupName != ''"> and a.group_name like concat(concat('%', #{groupName}), '%')</if>
+            <if test="userId != null  and userId != ''"> and c.user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and c.user_name = #{userName}</if>
+<!--
+            <if test="deptId != null  and deptId != ''"> and a.dept_id = #{deptId}</if>
+-->
+            <if test="deptName != null  and deptName != ''"> and a.dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="delFlag != null  and delFlag != ''"> and a.del_flag = #{delFlag}</if>
+
+            <!--and del_flag = 0-->
+        </where>
+    </select>
+
+
+</mapper>

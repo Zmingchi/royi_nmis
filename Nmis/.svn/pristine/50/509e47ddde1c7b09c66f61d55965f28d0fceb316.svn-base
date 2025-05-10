@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrTitleMapper">
+    <resultMap type="NmisHrTitle" id="NmisHrTitleResult">
+        <result property="id"    column="id"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="titleCode"    column="title_code"    />
+        <result property="titleDate"    column="title_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="deptId"    column="dept_id"    />
+    </resultMap>
+
+    <sql id="selectNmisHrTitleVp">
+        select c.dept_id,a.id, a.nurse_id, a.nurse_name, a.title_code, a.title_date, a.remark, a.del_flag, a.revision, a.create_id, a.creator, a.create_date, a.modify_id, a.modifier, a.modify_date, a.unit_code
+        from nmis.nmis_hr_title a
+                 left join nmis.nmis_hr_user b
+                           on a.nurse_id = b.nurse_id
+                 left join nmis.nmis_dept_dict c
+                           on b.dept_id = c.dept_id
+    </sql>
+
+    <sql id="selectNmisHrTitleVo">
+        select c.dept_id,a.id, a.nurse_id, a.nurse_name, a.title_code, a.title_date, a.remark, a.del_flag, a.revision, a.create_id, a.creator, a.create_date, a.modify_id, a.modifier, a.modify_date, a.unit_code
+        from nmis.nmis_hr_title a
+                 left join nmis.nmis_hr_user b
+                           on a.nurse_id = b.nurse_id
+                 left join nmis.nmis_dept_dict c
+                           on b.dept_id = c.dept_id
+    </sql>
+
+    <select id="selectNmisHrTitleList" parameterType="NmisHrTitle" resultMap="NmisHrTitleResult">
+        <include refid="selectNmisHrTitleVo"/>
+        <where>
+            <if test="nurseId != null "> and a.nurse_id = #{nurseId}</if>
+            <if test="nurseName != null  and nurseName != ''"> and a.nurse_name like CONCAT(concat('%', #{nurseName}), '%')</if>
+            <if test="titleCode != null  and titleCode != ''"> and a.title_code = #{titleCode}</if>
+            <if test="titleDate != null "> and a.title_date = #{titleDate}</if>
+            <if test="revision != null "> and a.revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and a.create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and a.creator = #{creator}</if>
+            <if test="createDate != null "> and a.create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and a.modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and a.modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and a.modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and a.unit_code = #{unitCode}</if>
+            <if test="deptId != null  and deptId != ''"> and c.dept_id = #{deptId}</if>
+            <!--and  del_flag = 0-->
+        </where>
+    </select>
+
+    <select id="selectNmisHrTitleById" parameterType="Long" resultMap="NmisHrTitleResult">
+        <include refid="selectNmisHrTitleVo"/>
+        where a.id = #{id}
+    </select>
+
+    <select id="selectNmisHrTitleBydeptId" parameterType="NmisHrTitleWithDept" resultMap="NmisHrTitleResult">
+        <include refid="selectNmisHrTitleVo"/>
+        <where>
+            <if test="nurseId != null "> and a.nurse_id = #{nurseId}</if>
+            <if test="nurseName != null  and nurseName != ''"> and a.nurse_name like CONCAT(concat('%', #{nurseName}), '%')</if>
+            <if test="titleCode != null  and titleCode != ''"> and a.title_code = #{titleCode}</if>
+            <if test="titleDate != null "> and a.title_date = #{titleDate}</if>
+            <if test="revision != null "> and a.revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and a.create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and a.creator = #{creator}</if>
+            <if test="createDate != null "> and a.create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and a.modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and a.modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and a.modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and a.unit_code = #{unitCode}</if>
+            <if test="deptId != null  and deptId != ''"> and c.dept_id = #{deptId}</if>
+            <!--and  del_flag = 0-->
+        </where>
+    </select>
+
+    <insert id="insertNmisHrTitle" parameterType="NmisHrTitle" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_hr_title.nextval as id from DUAL
+        </selectKey>
+        insert into nmis.nmis_hr_title
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="titleCode != null">title_code,</if>
+            <if test="titleDate != null">title_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="titleCode != null">#{titleCode},</if>
+            <if test="titleDate != null">#{titleDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNmisHrTitle" parameterType="NmisHrTitle">
+        update nmis.nmis_hr_title
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="titleCode != null">title_code = #{titleCode},</if>
+            title_date = #{titleDate, jdbcType=DATE},
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisHrTitleById" parameterType="Long">
+        delete from nmis.nmis_hr_title where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisHrTitleByIds" parameterType="String">
+        delete from nmis.nmis_hr_title where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

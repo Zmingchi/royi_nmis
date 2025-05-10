@@ -1,0 +1,108 @@
+package com.ydl.nmis.hr.dto;
+
+public class NmisHrCoat {
+    /**科室Id */
+    private String deptId;
+
+    /**科室名称 */
+    private String deptName;
+
+    /**类型 */
+    private String type ="1";
+
+    /**大小 */
+    private String XS;
+
+    private String S;
+
+    private String M;
+
+    private String L;
+
+    private String XL;
+
+    private String XXL;
+
+    private String XXXL;
+
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getXS() {
+        return XS;
+    }
+
+    public void setXS(String XS) {
+        this.XS = XS;
+    }
+
+    public String getS() {
+        return S;
+    }
+
+    public void setS(String s) {
+        S = s;
+    }
+
+    public String getM() {
+        return M;
+    }
+
+    public void setM(String m) {
+        M = m;
+    }
+
+    public String getL() {
+        return L;
+    }
+
+    public void setL(String l) {
+        L = l;
+    }
+
+    public String getXL() {
+        return XL;
+    }
+
+    public void setXL(String XL) {
+        this.XL = XL;
+    }
+
+    public String getXXL() {
+        return XXL;
+    }
+
+    public void setXXL(String XXL) {
+        this.XXL = XXL;
+    }
+
+    public String getXXXL() {
+        return XXXL;
+    }
+
+    public void setXXXL(String XXXL) {
+        this.XXXL = XXXL;
+    }
+}

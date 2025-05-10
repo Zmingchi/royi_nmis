@@ -1,0 +1,46 @@
+package com.ydl.nmis.schedule.dto;
+
+import java.util.Date;
+
+public class MemberDayDataDTO {
+    private String memberId;
+    private String dayType; // day1-day7
+    private ScheDayData dayData;
+    private Date scheDate; // 添加日期字段
+
+
+    // getters and setters...
+
+
+    public Date getScheDate() {
+        return scheDate;
+    }
+
+    public void setScheDate(Date scheDate) {
+        this.scheDate = scheDate;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getDayType() {
+        return dayType;
+    }
+
+    public void setDayType(String dayType) {
+        this.dayType = dayType;
+    }
+
+    public ScheDayData getDayData() {
+        return dayData;
+    }
+
+    public void setDayData(ScheDayData dayData) {
+        this.dayData = dayData;
+    }
+}

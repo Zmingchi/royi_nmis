@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.qc.mapper.NmisQcChkPlanGrpMapper">
+    
+    <resultMap type="NmisQcChkPlanGrp" id="NmisQcChkPlanGrpResult">
+        <result property="id"    column="id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="deptCodes"    column="dept_codes"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisQcChkPlanGrpVo">
+        select id, group_name, dept_codes, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_qc_chk_plan_grp
+    </sql>
+
+    <select id="selectNmisQcChkPlanGrpList" parameterType="NmisQcChkPlanGrp" resultMap="NmisQcChkPlanGrpResult">
+        <include refid="selectNmisQcChkPlanGrpVo"/>
+        <where>  
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="deptCodes != null  and deptCodes != ''"> and dept_codes = #{deptCodes}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectNmisQcChkPlanGrpById" parameterType="String" resultMap="NmisQcChkPlanGrpResult">
+        <include refid="selectNmisQcChkPlanGrpVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNmisQcChkPlanGrp" parameterType="NmisQcChkPlanGrp" useGeneratedKeys="true" keyProperty="id">
+        <selectKey order="BEFORE" resultType="String" keyProperty="id">
+            select nmis.nmis_seq_qc_chk_plan_grp.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_qc_chk_plan_grp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="groupName != null">group_name,</if>
+            <if test="deptCodes != null">dept_codes,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="deptCodes != null">#{deptCodes},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisQcChkPlanGrp" parameterType="NmisQcChkPlanGrp">
+        update nmis.nmis_qc_chk_plan_grp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="deptCodes != null">dept_codes = #{deptCodes},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisQcChkPlanGrpById" parameterType="String">
+        delete from nmis.nmis_qc_chk_plan_grp where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisQcChkPlanGrpByIds" parameterType="String">
+        delete from nmis.nmis_qc_chk_plan_grp where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

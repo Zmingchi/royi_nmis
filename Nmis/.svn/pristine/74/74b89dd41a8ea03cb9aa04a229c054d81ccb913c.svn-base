@@ -1,0 +1,95 @@
+package com.ydl.nmis.schedule.service.impl;
+
+
+import java.util.List;
+
+import com.ydl.nmis.schedule.dto.ScheDetail;
+import com.ydl.nmis.schedule.mapper.ScheDetailMapper;
+import com.ydl.nmis.schedule.service.ScheDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * 护理排班Service业务层处理
+ *
+ * @author ydl
+ * @date 2025-03-28
+ */
+@Service
+public class ScheDetailServiceImpl implements ScheDetailService
+{
+    @Autowired
+    private ScheDetailMapper ScheDetailMapper;
+
+    /**
+     * 查询护理排班
+     *
+     * @param id 护理排班主键
+     * @return 护理排班
+     */
+    @Override
+    public ScheDetail selectScheDetailById(String id)
+    {
+        return ScheDetailMapper.selectScheDetailById(id);
+    }
+
+    /**
+     * 查询护理排班列表
+     *
+     * @param ScheDetail 护理排班
+     * @return 护理排班
+     */
+    @Override
+    public List<ScheDetail> selectScheDetailList(ScheDetail ScheDetail)
+    {
+        return ScheDetailMapper.selectScheDetailList(ScheDetail);
+    }
+
+    /**
+     * 新增护理排班
+     *
+     * @param ScheDetail 护理排班
+     * @return 结果
+     */
+    @Override
+    public int insertScheDetail(ScheDetail ScheDetail)
+    {
+        return ScheDetailMapper.insertScheDetail(ScheDetail);
+    }
+
+    /**
+     * 修改护理排班
+     *
+     * @param ScheDetail 护理排班
+     * @return 结果
+     */
+    @Override
+    public int updateScheDetail(ScheDetail ScheDetail)
+    {
+        return ScheDetailMapper.updateScheDetail(ScheDetail);
+    }
+
+    /**
+     * 批量删除护理排班
+     *
+     * @param ids 需要删除的护理排班主键
+     * @return 结果
+     */
+    @Override
+    public int deleteScheDetailByIds(String[] ids)
+    {
+        return ScheDetailMapper.deleteScheDetailByIds(ids);
+    }
+
+    /**
+     * 删除护理排班信息
+     *
+     * @param id 护理排班主键
+     * @return 结果
+     */
+    @Override
+    public int deleteScheDetailById(String id)
+    {
+        return ScheDetailMapper.deleteScheDetailById(id);
+    }
+}

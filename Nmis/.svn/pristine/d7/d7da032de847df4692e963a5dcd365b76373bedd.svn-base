@@ -1,0 +1,50 @@
+package com.ydl.nmis.schedule.mapper;
+
+import com.ydl.nmis.schedule.dto.Member;
+import com.ydl.nmis.schedule.dto.ScheGroup;
+import com.ydl.nmis.schedule.dto.MemberDayDataDTO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.Date;
+import java.util.List;
+
+@Mapper
+public interface ScheWeekDetail {
+    /**
+     * 查询基础组信息
+     */
+
+    @Select("SELECT c.id, c.plan_name as name ,c.dept_id as deptId  FROM nmis.nmis_sche_plan c")
+    List<ScheGroup> selectAllBaseGroups();
+
+    // 新增方法：根据dept_id查询组信息
+    @Select("SELECT c.id, c.plan_name as name ,c.dept_id as deptId FROM nmis.nmis_sche_plan c WHERE c.dept_id = #{deptId}")
+    List<ScheGroup> selectBaseGroupsByDept(@Param("deptId") String deptId);
+
+
+    // 在ScheWeekDetail接口中添加
+    @Select("<script>" +
+            "SELECT " +  // 添加 SELECT 关键字
+            "a.nurse_id as id, " +
+            "a.name, " +
+            "a.nurse_id as sNo, " +
+            "a.nurse_level as nj, " +
+            "to_char(a.enter_date,'YYYY') as workYear, " +
+            "b.remark as memo " +
+            "FROM nmis.nmis_hr_user a " +
+            "LEFT JOIN nmis.nmis_sche_plan b ON a.dept_id = b.dept_id " +
+            "WHERE b.id = #{groupId} " +
+            "<if test='deptId != null'> AND a.dept_id = #{deptId} </if>" +
+            "</script>")
+             //添加dept_id参数
+    List<Member> selectMembersByGroupId(@Param("groupId") Integer groupId, @Param("deptId") String deptId);    /**
+     /* 查询成员每日排班数据
+     */
+    // 修改方法：支持日期范围和dept_id
+    List<MemberDayDataDTO> selectMemberDayData(
+            @Param("deptId") String deptId,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate
+    );}

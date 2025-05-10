@@ -1,0 +1,94 @@
+package com.ydl.web.controller.schedule;
+
+import com.ydl.common.core.controller.BaseController;
+import com.ydl.common.core.domain.AjaxResult;
+import com.ydl.nmis.schedule.domain.NmisScheMaster;
+import com.ydl.nmis.schedule.dto.ScheDayData;
+import com.ydl.nmis.schedule.dto.ScheGroup;
+import com.ydl.nmis.schedule.dto.ScheMaster;
+import com.ydl.nmis.schedule.dto.SchePlan;
+import com.ydl.nmis.schedule.service.ScheMasterService;
+import com.ydl.nmis.schedule.service.SchePlanService;
+import com.ydl.nmis.schedule.service.ScheWeekDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+public class NmisScheWeekControler extends BaseController {
+
+    /*@Autowired
+    private ScheWeekDetailService scheWeekDetailService;
+    private SchePlanService schePlanService;
+    private ScheMasterService scheMasterService;
+    private
+    public AjaxResult GetSchedulePlan(@ResponseBody NmisScheMaster data) {
+
+
+        String beginData = "";
+        String endDate = "";
+        String deptCode = "";
+
+
+        var planDto = schePlanService.getByBeginDateAndEndDateAndDeptCode();
+        if (planDto != null) {
+            var masterListDto = scheMasterService.getByPLanId(planDto.Id);
+            var detailListDto = scheWeekDetailService.getByPLanId(planDto.Id);
+            SchePlan schePlan = new SchePlan();
+            schePlan.id = planDto.id;
+
+            ScheMaster master = new ScheMaster();
+            schePlan.setScheMaster(master);
+
+            List<ScheGroup> groupList = new ArrayList<ScheGroup>();
+            master.scheGroups = groupList;
+
+            List listGroup = from detailListDto group by groupId,groupName;
+
+            foreach(var group in listGroup){
+                var detailListFilter = detailListDto.where(x=>x.groupId == group.groupId);
+
+
+
+            }
+
+
+
+
+        }else{
+            SchePlan schePlan = new SchePlan();
+            String planId = data.id;
+            schePlan = schePlanService.getId(planId);
+
+            ScheMaster master = new ScheMaster();
+            schePlan.setScheMaster(master);
+
+            List<ScheGroup> groupList = new ArrayList<ScheGroup>();
+
+
+            master.scheGroups = groupList;
+            // 查询组的列表，
+            for(int i = 0;i < groupList.size();i++) {
+                ScheGroup group = new ScheGroup();
+                for(int beginDdat = 0; i < 7; beginDdat++) {
+                    ScheDayData day = new ScheDayData();
+                    if(beginDdat == 0) {
+                        group.setDay1(day);
+                    }else if(beginDdat == 1) {
+                        group.setDay2(day);
+                    }else{
+
+                    }
+                }
+                groupList.add(group);
+            }
+        }
+
+
+
+        return success(schePlan);
+    }*/
+}

@@ -1,0 +1,65 @@
+package com.ydl.nmis.schedule.mapper;
+
+
+import com.ydl.nmis.schedule.dto.ScheDetail;
+
+import java.util.List;
+
+/**
+ * 护理排班Mapper接口
+ *
+ * @author ydl
+ * @date 2025-03-29
+ */
+public interface ScheDetailMapper
+{
+
+    /**
+     * 查询护理排班
+     *
+     * @param id 护理排班主键
+     * @return 护理排班
+     */
+    public ScheDetail selectScheDetailById(String id);
+
+    /**
+     * 查询护理排班列表
+     *
+     * @param ScheDetail 护理排班
+     * @return 护理排班集合
+     */
+    public List<ScheDetail> selectScheDetailList(ScheDetail ScheDetail);
+
+    /**
+     * 新增护理排班
+     *
+     * @param ScheDetail 护理排班
+     * @return 结果
+     */
+    public int insertScheDetail(ScheDetail ScheDetail);
+
+    /**
+     * 修改护理排班
+     *
+     * @param ScheDetail 护理排班
+     * @return 结果
+     */
+    public int updateScheDetail(ScheDetail ScheDetail);
+
+    /**
+     * 删除护理排班
+     *
+     * @param id 护理排班主键
+     * @return 结果
+     */
+    public int deleteScheDetailById(String id);
+
+    /**
+     * 批量删除护理排班
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteScheDetailByIds(String[] ids);
+}
+

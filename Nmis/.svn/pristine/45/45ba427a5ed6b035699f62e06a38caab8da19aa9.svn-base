@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrExpatriateMapper">
+
+    <resultMap type="NmisHrExpatriate" id="NmisHrExpatriateResult">
+        <result property="id"    column="id"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="srcDeptId"    column="src_dept_id"    />
+        <result property="srcDeptName"    column="src_dept_name"    />
+        <result property="expatriateUnit"    column="expatriate_unit"    />
+        <result property="expatriateType"    column="expatriate_type"    />
+        <result property="beginDate"    column="begin_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="expatriateReason"    column="expatriate_reason"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="deptId"    column="dept_id"    />
+    </resultMap>
+
+    <sql id="selectNmisHrExpatriateVo">
+        select a.id, a.nurse_id, a.nurse_name, a.src_dept_id, a.src_dept_name, a.expatriate_unit, a.expatriate_type, a.begin_date, a.end_date, a.expatriate_reason, a.remark, a.del_flag, a.revision, a.create_id, a.creator, a.create_date, a.modify_id, a.modifier, a.modify_date, a.unit_code, b.dept_id
+        from nmis.nmis_hr_expatriate a left join nmis.nmis_hr_user b on a.nurse_id = b.nurse_id
+    </sql>
+
+    <select id="selectNmisHrExpatriateList" parameterType="NmisHrExpatriate" resultMap="NmisHrExpatriateResult">
+        <include refid="selectNmisHrExpatriateVo"/>
+        <where>
+            <if test="nurseId != null "> and nurse_id = #{nurseId}</if>
+            <if test="nurseName != null  and nurseName != ''"> and nurse_name like CONCAT(concat('%', #{nurseName}), '%')</if>
+            <if test="srcDeptId != null  and srcDeptId != ''"> and src_dept_id = #{srcDeptId}</if>
+            <if test="srcDeptName != null  and srcDeptName != ''"> and src_dept_name like CONCAT(concat('%', #{srcDeptName}), '%')</if>
+            <if test="expatriateUnit != null  and expatriateUnit != ''"> and expatriate_unit = #{expatriateUnit}</if>
+            <if test="expatriateType != null  and expatriateType != ''"> and expatriate_type = #{expatriateType}</if>
+            <if test="beginDate != null "> and begin_date = #{beginDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="expatriateReason != null  and expatriateReason != ''"> and expatriate_reason = #{expatriateReason}</if>
+            <if test="revision != null "> and revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+            <!--and  del_flag = 0-->
+
+        </where>
+    </select>
+
+    <select id="selectNmisHrExpatriateById" parameterType="Long" resultMap="NmisHrExpatriateResult">
+        <include refid="selectNmisHrExpatriateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNmisHrExpatriate" parameterType="NmisHrExpatriate" useGeneratedKeys="true" keyProperty="id">
+
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_hr_expatriate.nextval as id from DUAL
+        </selectKey>
+
+        insert into nmis.nmis_hr_expatriate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="srcDeptId != null">src_dept_id,</if>
+            <if test="srcDeptName != null">src_dept_name,</if>
+            <if test="expatriateUnit != null">expatriate_unit,</if>
+            <if test="expatriateType != null">expatriate_type,</if>
+            <if test="beginDate != null">begin_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="expatriateReason != null">expatriate_reason,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="srcDeptId != null">#{srcDeptId},</if>
+            <if test="srcDeptName != null">#{srcDeptName},</if>
+            <if test="expatriateUnit != null">#{expatriateUnit},</if>
+            <if test="expatriateType != null">#{expatriateType},</if>
+            <if test="beginDate != null">#{beginDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="expatriateReason != null">#{expatriateReason},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNmisHrExpatriate" parameterType="NmisHrExpatriate">
+        update nmis.nmis_hr_expatriate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="srcDeptId != null">src_dept_id = #{srcDeptId},</if>
+            <if test="srcDeptName != null">src_dept_name = #{srcDeptName},</if>
+            <if test="expatriateUnit != null">expatriate_unit = #{expatriateUnit},</if>
+            <if test="expatriateType != null">expatriate_type = #{expatriateType},</if>
+            begin_date = #{beginDate , jdbcType=DATE},
+            end_date = #{endDate , jdbcType=DATE},
+            <if test="expatriateReason != null">expatriate_reason = #{expatriateReason},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisHrExpatriateById" parameterType="Long">
+        delete from nmis.nmis_hr_expatriate where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisHrExpatriateByIds" parameterType="String">
+        delete from nmis.nmis_hr_expatriate where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

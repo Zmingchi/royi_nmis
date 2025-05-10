@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.schedule.mapper.ScheDetailMapper">
+
+    <resultMap type="ScheDetail" id="ScheDetailResult">
+        <result property="id"    column="id"    />
+        <result property="scheDate"    column="sche_date"    />
+        <result property="scheItemId"    column="sche_item_id"    />
+        <result property="scheItemName"    column="sche_name"    />
+        <result property="sheduleId"    column="scheid"    />
+        <result property="hours"    column="hours"    />
+        <result property="sheduleId"    column="shedule_id"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="scheHours"    column="sche_hours"    />
+        <result property="scheHoursChange"    column="sche_hours_change"    />
+        <result property="remark"    column="remark"    />
+        <result property="scheName"    column="sche_name"    />
+        <result property="beginDate"    column="begin_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="planId"    column="plan_id"    />
+
+    </resultMap>
+
+    <sql id="selectScheDetailVo">
+        select id, sche_date, sche_item_id, shedule_id, revision, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code, nurse_id, nurse_name, dept_id, dept_name, plan_id, sche_hours, sche_hours_change, remark, sche_name from nmis.nmis_sche_detail
+    </sql>
+
+    <sql id="selectScheDetailVp">
+        select d.id ,             --nmis.nmis_sche_detail主键
+               d.sche_item_id,    --班次 id
+               f.sche_name ,      --班次名称  name
+               d.sche_hours ,     --工时  gs
+               d.sche_hours_change , --工时增减，增加工时填正数，扣减工时填负数  kj
+               f.id as scheid,             --班次主键
+               f.hours,           --字典工时，新增插入 d.sche_hours
+               d.sche_date,        --班次日期
+               d.create_id ,       --创建人编码
+               d.modify_id,       --最后一次操作人编号
+               d.nurse_id ,        --护士id
+               d.dept_id  ,        -- 所属科室编码
+               d.plan_id  ,        --引用nmis_schedule_plan中id
+               /*查询字段*/
+               b.begin_date,
+               b.end_date,
+               b.group_id,
+               c.plan_id
+            from
+            nmis.nmis_sche_users a
+                left join nmis.nmis_sche_user_group b on a.dept_code = b.dept_id
+                left join nmis.nmis_sche_plan c on b.dept_id = c.dept_id
+                left join nmis.nmis_sche_detail d on d.plan_id = c.id and d.nurse_id = a.user_id
+                left join nmis.nmis_sche_dict f on f.id = d.sche_item_id
+    </sql>
+
+    <select id="selectScheDetailList" parameterType="ScheDetail" resultMap="ScheDetailResult">
+        <include refid="selectScheDetailVp"/>
+        <where>
+            <if test="beginDate != null "> and b.begin_date = #{beginDate}</if>
+            <if test="endDate != null  and endDate != ''"> and b.end_date = #{endDate}</if>
+            <if test="groupId != null  and groupId != ''"> and b.group_id = #{groupId}</if>
+            <if test="planId != null  and planId != ''"> and c.id = #{planId}</if>
+            <if test="deptId != null  and deptId != ''"> and d.dept_id = #{deptId}</if>
+            <if test="nurseId != null  and nurseId != ''"> and d.nurse_id = #{nurseId}</if>
+            <if test="scheDate != null  and scheDate != ''"> and d.sche_date = #{scheDate}</if>
+            <if test="deptName != null  and deptName != ''"> and d.dept_name like concat(concat('%', #{deptName}), '%')</if>
+        </where>
+    </select>
+
+    <select id="selectScheDetailById" parameterType="String" resultMap="ScheDetailResult">
+        <include refid="selectScheDetailVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertScheDetail" parameterType="ScheDetail" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            select  nmis.seq_sche_detail.nextval as id from dual
+        </selectKey>
+            insert into nmis.nmis_sche_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="scheDate != null">sche_date,</if>
+            <if test="scheItemId != null">sche_item_id,</if>
+            <if test="sheduleId != null">shedule_id,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="unitCode != null">unit_code,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="planId != null">plan_id,</if>
+            <if test="scheHours != null">sche_hours,</if>
+            <if test="scheHoursChange != null">sche_hours_change,</if>
+            <if test="remark != null">remark,</if>
+            <if test="scheName != null">sche_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="scheDate != null">#{scheDate},</if>
+            <if test="scheItemId != null">#{scheItemId},</if>
+            <if test="sheduleId != null">#{sheduleId},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="planId != null">#{planId},</if>
+            <if test="scheHours != null">#{scheHours},</if>
+            <if test="scheHoursChange != null">#{scheHoursChange},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="scheName != null">#{scheName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateScheDetail" parameterType="ScheDetail">
+        update nmis.nmis_sche_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scheDate != null">sche_date = #{scheDate},</if>
+            <if test="scheItemId != null">sche_item_id = #{scheItemId},</if>
+            <if test="sheduleId != null">shedule_id = #{sheduleId},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="scheHours != null">sche_hours = #{scheHours},</if>
+            <if test="scheHoursChange != null">sche_hours_change = #{scheHoursChange},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="scheName != null">sche_name = #{scheName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteScheDetailById" parameterType="String">
+        delete from nmis.nmis_sche_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteScheDetailByIds" parameterType="String">
+        delete from nmis.nmis_sche_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrArrangeMapper">
+
+    <resultMap type="NmisHrArrange" id="NmisHrArrangeResult">
+        <result property="id"    column="id"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="srcDeptId"    column="src_dept_id"    />
+        <result property="srcDeptName"    column="src_dept_name"    />
+        <result property="destDeptId"    column="dest_dept_id"    />
+        <result property="destDeptName"    column="dest_dept_name"    />
+        <result property="beginDate"    column="begin_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="arrangeReason"    column="arrange_reason"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisHrArrangeVo">
+        select id, nurse_id, nurse_name, src_dept_id, src_dept_name, dest_dept_id, dest_dept_name, begin_date, end_date, arrange_reason, remark, del_flag, revision, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_hr_arrange
+    </sql>
+
+    <select id="selectNmisHrArrangeList" parameterType="NmisHrArrange" resultMap="NmisHrArrangeResult">
+        <include refid="selectNmisHrArrangeVo"/>
+        <where>
+            <if test="nurseId != null "> and nurse_id = #{nurseId}</if>
+            <if test="nurseName != null  and nurseName != ''"> and nurse_name like CONCAT(concat('%', #{nurseName}), '%')</if>
+            <if test="srcDeptId != null  and srcDeptId != ''"> and src_dept_id = #{srcDeptId}</if>
+            <if test="srcDeptName != null  and srcDeptName != ''"> and src_dept_name like CONCAT(concat('%', #{srcDeptName}), '%')</if>
+            <if test="destDeptId != null  and destDeptId != ''"> and dest_dept_id = #{destDeptId}</if>
+            <if test="destDeptName != null  and destDeptName != ''"> and dest_dept_name like CONCAT(concat('%', #{destDeptName}), '%')</if>
+            <if test="beginDate != null "> and begin_date = #{beginDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="arrangeReason != null  and arrangeReason != ''"> and arrange_reason = #{arrangeReason}</if>
+            <if test="revision != null "> and revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+            --and  del_flag = 0
+        </where>
+    </select>
+
+    <select id="selectNmisHrArrangeById" parameterType="Long" resultMap="NmisHrArrangeResult">
+        <include refid="selectNmisHrArrangeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNmisHrArrange" parameterType="NmisHrArrange" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_hr_arrange.nextval as id from DUAL
+        </selectKey>
+        insert into nmis.nmis_hr_arrange
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="srcDeptId != null">src_dept_id,</if>
+            <if test="srcDeptName != null">src_dept_name,</if>
+            <if test="destDeptId != null">dest_dept_id,</if>
+            <if test="destDeptName != null">dest_dept_name,</if>
+            <if test="beginDate != null">begin_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="arrangeReason != null">arrange_reason,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nurseId != null">#{id},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="srcDeptId != null">#{srcDeptId},</if>
+            <if test="srcDeptName != null">#{srcDeptName},</if>
+            <if test="destDeptId != null">#{destDeptId},</if>
+            <if test="destDeptName != null">#{destDeptName},</if>
+            <if test="beginDate != null">#{beginDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="arrangeReason != null">#{arrangeReason},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            SYSDATE,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            SYSDATE,
+            <!--<if test="modifyDate != null">#{modifyDate},</if>-->
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisHrArrange" parameterType="NmisHrArrange">
+        update nmis.nmis_hr_arrange
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="srcDeptId != null">src_dept_id = #{srcDeptId},</if>
+            <if test="srcDeptName != null">src_dept_name = #{srcDeptName},</if>
+            <if test="destDeptId != null">dest_dept_id = #{destDeptId},</if>
+            <if test="destDeptName != null">dest_dept_name = #{destDeptName},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="arrangeReason != null">arrange_reason = #{arrangeReason},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = SYSDATE,
+            <!--if test="modifyDate != null">modify_date = #{modifyDate},</if-->
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisHrArrangeById" parameterType="Long">
+        delete from nmis.nmis_hr_arrange where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisHrArrangeByIds" parameterType="String">
+        delete from nmis.nmis_hr_arrange where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

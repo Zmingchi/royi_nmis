@@ -1,0 +1,195 @@
+package com.ydl.qc.domain;
+
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ydl.common.annotation.Excel;
+import com.ydl.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+/**
+ * 护理质量检查项目对象 nmis_qc_chk_paper_item
+ * 
+ * @author ydl
+ * @date 2025-05-07
+ */
+public class NmisQcChkPaperItem extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
+
+    /** 主键 */
+    private String id;
+
+    /** 标准项目ID */
+    @Excel(name = "标准项目ID")
+    private String stdItemId;
+
+    /** 标准项目名称 */
+    @Excel(name = "标准项目名称")
+    private String stdItemName;
+
+    /** 标准ID */
+    @Excel(name = "标准ID")
+    private String stdId;
+
+    /** 试卷ID */
+    @Excel(name = "试卷ID")
+    private String paperId;
+
+    /** 创建人编码 */
+    @Excel(name = "创建人编码")
+    private String createId;
+
+    /** 创建人名称 */
+    @Excel(name = "创建人名称")
+    private String creator;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date createDate;
+
+    /** 最后一次操作人编号 */
+    @Excel(name = "最后一次操作人编号")
+    private String modifyId;
+
+    /** 最后一次操作人姓名 */
+    @Excel(name = "最后一次操作人姓名")
+    private String modifier;
+
+    /** 最后更新时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "最后更新时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date modifyDate;
+
+    /** 所属单位 */
+    @Excel(name = "所属单位")
+    private String unitCode;
+
+    public void setId(String id) 
+    {
+        this.id = id;
+    }
+
+    public String getId() 
+    {
+        return id;
+    }
+    public void setStdItemId(String stdItemId) 
+    {
+        this.stdItemId = stdItemId;
+    }
+
+    public String getStdItemId() 
+    {
+        return stdItemId;
+    }
+    public void setStdItemName(String stdItemName) 
+    {
+        this.stdItemName = stdItemName;
+    }
+
+    public String getStdItemName() 
+    {
+        return stdItemName;
+    }
+    public void setStdId(String stdId) 
+    {
+        this.stdId = stdId;
+    }
+
+    public String getStdId() 
+    {
+        return stdId;
+    }
+    public void setPaperId(String paperId) 
+    {
+        this.paperId = paperId;
+    }
+
+    public String getPaperId() 
+    {
+        return paperId;
+    }
+    public void setCreateId(String createId) 
+    {
+        this.createId = createId;
+    }
+
+    public String getCreateId() 
+    {
+        return createId;
+    }
+    public void setCreator(String creator) 
+    {
+        this.creator = creator;
+    }
+
+    public String getCreator() 
+    {
+        return creator;
+    }
+    public void setCreateDate(Date createDate) 
+    {
+        this.createDate = createDate;
+    }
+
+    public Date getCreateDate() 
+    {
+        return createDate;
+    }
+    public void setModifyId(String modifyId) 
+    {
+        this.modifyId = modifyId;
+    }
+
+    public String getModifyId() 
+    {
+        return modifyId;
+    }
+    public void setModifier(String modifier) 
+    {
+        this.modifier = modifier;
+    }
+
+    public String getModifier() 
+    {
+        return modifier;
+    }
+    public void setModifyDate(Date modifyDate) 
+    {
+        this.modifyDate = modifyDate;
+    }
+
+    public Date getModifyDate() 
+    {
+        return modifyDate;
+    }
+    public void setUnitCode(String unitCode) 
+    {
+        this.unitCode = unitCode;
+    }
+
+    public String getUnitCode() 
+    {
+        return unitCode;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("stdItemId", getStdItemId())
+            .append("stdItemName", getStdItemName())
+            .append("stdId", getStdId())
+            .append("paperId", getPaperId())
+            .append("createId", getCreateId())
+            .append("creator", getCreator())
+            .append("createDate", getCreateDate())
+            .append("modifyId", getModifyId())
+            .append("modifier", getModifier())
+            .append("modifyDate", getModifyDate())
+            .append("unitCode", getUnitCode())
+            .toString();
+    }
+}

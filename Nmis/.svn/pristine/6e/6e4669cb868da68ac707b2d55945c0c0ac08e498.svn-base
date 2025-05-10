@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrStatsMapper">
+
+    <resultMap id="statisticsResultMap" type="NmisHrStats">
+        <!-- Basic department info -->
+        <result property="deptId" column="department_id"/>
+        <result property="deptName" column="department_name"/>
+
+        <!-- Gender distribution -->
+        <result property="maleCount" column="male_count"/>
+        <result property="femaleCount" column="female_count"/>
+        <result property="unknownGender" column="unknown_gender"/>
+
+        <!-- Title distribution -->
+        <result property="nurse" column="nurse"/>
+        <result property="seniorNurse" column="senior_nurse"/>
+        <result property="chargeNurse" column="charge_nurse"/>
+        <result property="associateChiefNurse" column="associate_chief_nurse"/>
+        <result property="chiefNurse" column="chief_nurse"/>
+        <result property="noTitle" column="no_title"/>
+        <result property="unknownTitle" column="unknown_title"/>
+
+        <!-- Level distribution -->
+        <result property="N0" column="N0"/>
+        <result property="N1" column="N1"/>
+        <result property="N2" column="N2"/>
+        <result property="N3" column="N3"/>
+        <result property="N4" column="N4"/>
+        <result property="N5" column="N5"/>
+        <result property="unknownLevel" column="unknown_level"/>
+
+        <!-- Duty distribution -->
+        <result property="instructor" column="instructor"/>
+        <result property="teamLeader" column="team_leader"/>
+        <result property="deputyHeadNurse" column="deputy_head_nurse"/>
+        <result property="headNurse" column="head_nurse"/>
+        <result property="departmentHeadNurse" column="department_head_nurse"/>
+        <result property="nursingOfficeClerk" column="office_clerk"/>
+        <result property="nursingOfficeSupervisor" column="office_supervisor"/>
+        <result property="nursingOfficeAssistantDirector" column="office_assistant_director"/>
+        <result property="nursingOfficeDeputyDirector" column="office_deputy_director"/>
+        <result property="nursingOfficeDirector" column="office_director"/>
+        <result property="noDuty" column="no_duty"/>
+        <result property="unknownDuty" column="unknown_duty"/>
+
+        <!-- Age group distribution -->
+        <result property="under20" column="under_20"/>
+        <result property="age20To29" column="age_20_29"/>
+        <result property="age30To39" column="age_30_39"/>
+        <result property="age40To49" column="age_40_49"/>
+        <result property="age50To54" column="age_50_54"/>
+        <result property="age55Plus" column="age_55_plus"/>
+        <result property="unknownAge" column="unknown_age"/>
+
+        <!-- Education distribution -->
+        <result property="juniorHigh" column="junior_high"/>
+        <result property="technicalSchool" column="technical_school"/>
+        <result property="highSchool" column="high_school"/>
+        <result property="college" column="college"/>
+        <result property="bachelor" column="bachelor"/>
+        <result property="master" column="master"/>
+        <result property="phd" column="phd"/>
+        <result property="postdoc" column="postdoc"/>
+        <result property="unknownEducation" column="unknown_education"/>
+
+        <!-- Position category distribution -->
+        <result property="clinicalPosition" column="clinical_position"/>
+        <result property="managementPosition" column="management_position"/>
+        <result property="unknownPosition" column="unknown_position"/>
+
+        <!-- Employment type distribution -->
+        <result property="formalEmployee" column="formal_employee"/>
+        <result property="contractEmployee" column="contract_employee"/>
+        <result property="personnelAgency" column="personnel_agency"/>
+        <result property="laborDispatch" column="labor_dispatch"/>
+        <result property="rehire" column="rehire"/>
+        <result property="standardizedTraining" column="standardized_training"/>
+        <result property="intern" column="intern"/>
+        <result property="furtherStudy" column="further_study"/>
+        <result property="preReport" column="pre_report"/>
+        <result property="otherType" column="other_type"/>
+        <result property="unknownEmploymentType" column="unknown_employment_type"/>
+
+        <!-- Work experience distribution -->
+        <result property="lessThan1Year" column="less_than_1_year"/>
+        <result property="years1To2" column="years_1_2"/>
+        <result property="years2To5" column="years_2_5"/>
+        <result property="years5To10" column="years_5_10"/>
+        <result property="years10To20" column="years_10_20"/>
+        <result property="moreThan20Years" column="more_than_20"/>
+        <result property="unknownExperience" column="unknown_experience"/>
+
+        <!-- Hospital tenure distribution -->
+        <result property="hospitalLessThan1Year" column="hospital_less_than_1_year"/>
+        <result property="hospital1To2Years" column="hospital_1_2_years"/>
+        <result property="hospital2To5Years" column="hospital_2_5_years"/>
+        <result property="hospital5To10Years" column="hospital_5_10_years"/>
+        <result property="hospital10To20Years" column="hospital_10_20_years"/>
+        <result property="hospitalMoreThan20Years" column="hospital_more_than_20"/>
+        <result property="unknownHospitalTenure" column="unknown_hospital_tenure"/>
+
+        <!-- Specialty distribution -->
+        <result property="nursing" column="nursing"/>
+        <result property="midwifery" column="midwifery"/>
+        <result property="unknownSpecialty" column="unknown_specialty"/>
+
+        <!-- Employment status -->
+        <result property="active" column="active"/>
+        <result property="inactive" column="inactive"/>
+    </resultMap>
+
+    <select id="selectNmisHrStatsList" resultMap="statisticsResultMap">
+        SELECT
+        a.dept_id AS department_id,
+        b.dept_name AS department_name,
+
+        -- 男女分布
+        SUM(CASE WHEN sex = '1' THEN 1 ELSE 0 END) AS male_count,
+        SUM(CASE WHEN sex = '2' THEN 1 ELSE 0 END) AS female_count,
+        SUM(CASE WHEN sex IS NULL OR sex NOT IN ('2', '1') THEN 1 ELSE 0 END) AS unknown_gender,
+
+        -- 职称分布
+        SUM(CASE WHEN title = '5' THEN 1 ELSE 0 END) AS nurse,
+        SUM(CASE WHEN title = '4' THEN 1 ELSE 0 END) AS senior_nurse,
+        SUM(CASE WHEN title = '3' THEN 1 ELSE 0 END) AS charge_nurse,
+        SUM(CASE WHEN title = '2' THEN 1 ELSE 0 END) AS associate_chief_nurse,
+        SUM(CASE WHEN title = '1' THEN 1 ELSE 0 END) AS chief_nurse,
+        SUM(CASE WHEN title IS NULL OR title = '' THEN 1 ELSE 0 END) AS no_title,
+        SUM(CASE WHEN title NOT IN ('1', '2', '3', '4', '5')
+        AND title IS NOT NULL AND title != '' THEN 1 ELSE 0 END) AS unknown_title,
+
+        -- 层级分布
+        SUM(CASE WHEN nurse_level in ('0','1','2') THEN 1 ELSE 0 END) AS N0,
+        SUM(CASE WHEN nurse_level in ('4','3') THEN 1 ELSE 0 END) AS N1,
+        SUM(CASE WHEN nurse_level in ('5','6') THEN 1 ELSE 0 END) AS N2,
+        SUM(CASE WHEN nurse_level in ('7','8') THEN 1 ELSE 0 END) AS N3,
+        SUM(CASE WHEN nurse_level  = '9' THEN 1 ELSE 0 END) AS N4,
+        SUM(CASE WHEN nurse_level = 'N5' THEN 1 ELSE 0 END) AS N5,
+        SUM(CASE WHEN nurse_level IS NULL OR nurse_level NOT IN ('0', '1', '2', '3', '4', '5' , '6', '7', '8', '9')
+        THEN 1 ELSE 0 END) AS unknown_level,
+
+        -- 职务分布
+        SUM(CASE WHEN duty = '10' THEN 1 ELSE 0 END) AS instructor,
+        SUM(CASE WHEN duty = '9' THEN 1 ELSE 0 END) AS team_leader,
+        SUM(CASE WHEN duty = '8' THEN 1 ELSE 0 END) AS deputy_head_nurse,
+        SUM(CASE WHEN duty = '7' THEN 1 ELSE 0 END) AS head_nurse,
+        SUM(CASE WHEN duty = '6' THEN 1 ELSE 0 END) AS department_head_nurse,
+        SUM(CASE WHEN duty = '5' THEN 1 ELSE 0 END) AS office_clerk,
+        SUM(CASE WHEN duty = '4' THEN 1 ELSE 0 END) AS office_supervisor,
+        SUM(CASE WHEN duty = '3' THEN 1 ELSE 0 END) AS office_assistant_director,
+        SUM(CASE WHEN duty = '2' THEN 1 ELSE 0 END) AS office_deputy_director,
+        SUM(CASE WHEN duty = '1' THEN 1 ELSE 0 END) AS office_director,
+        SUM(CASE WHEN duty IS NULL OR duty = '' THEN 1 ELSE 0 END) AS no_duty,
+        SUM(CASE WHEN duty NOT IN ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')
+        AND duty IS NOT NULL AND duty != '' THEN 1 ELSE 0 END) AS unknown_duty,
+
+        -- 年龄段分布
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) &lt; 20 THEN 1 ELSE 0 END) AS under_20,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) >= 20
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) &lt; 30 THEN 1 ELSE 0 END) AS age_20_29,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) >= 30
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) &lt; 40 THEN 1 ELSE 0 END) AS age_30_39,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) >= 40
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) &lt; 50 THEN 1 ELSE 0 END) AS age_40_49,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) >= 50
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) &lt; 55 THEN 1 ELSE 0 END) AS age_50_54,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_birth)/12) >= 55 THEN 1 ELSE 0 END) AS age_55_plus,
+        SUM(CASE WHEN date_of_birth IS NULL THEN 1 ELSE 0 END) AS unknown_age,
+
+        -- 学历分布
+        SUM(CASE WHEN c.education = '1' THEN 1 ELSE 0 END) AS junior_high,
+        SUM(CASE WHEN c.education = '2' THEN 1 ELSE 0 END) AS technical_school,
+        SUM(CASE WHEN c.education = '3' THEN 1 ELSE 0 END) AS high_school,
+        SUM(CASE WHEN c.education = '4' THEN 1 ELSE 0 END) AS college,
+        SUM(CASE WHEN c.education = '5' THEN 1 ELSE 0 END) AS bachelor,
+        SUM(CASE WHEN c.education = '6' THEN 1 ELSE 0 END) AS master,
+        SUM(CASE WHEN c.education = '7' THEN 1 ELSE 0 END) AS phd,
+        SUM(CASE WHEN c.education = '8' THEN 1 ELSE 0 END) AS postdoc,
+        SUM(CASE WHEN c.education = '0' THEN 1 ELSE 0 END) AS unknown_education,
+
+        -- 岗位类别分布
+        SUM(CASE WHEN post_name = '临床岗' THEN 1 ELSE 0 END) AS clinical_position,
+        SUM(CASE WHEN post_name = '管理岗' THEN 1 ELSE 0 END) AS management_position,
+        SUM(CASE WHEN post_name IS NULL OR post_name NOT IN ('临床岗', '管理岗') THEN 1 ELSE 0 END) AS unknown_position,
+
+        -- 职工性质分布
+        SUM(CASE WHEN staff_type_id = '1' THEN 1 ELSE 0 END) AS formal_employee,
+        SUM(CASE WHEN staff_type_id = '2' THEN 1 ELSE 0 END) AS contract_employee,
+        SUM(CASE WHEN staff_type_id = '3' THEN 1 ELSE 0 END) AS personnel_agency,
+        SUM(CASE WHEN staff_type_id = '4' THEN 1 ELSE 0 END) AS labor_dispatch,
+        SUM(CASE WHEN staff_type_id = '5' THEN 1 ELSE 0 END) AS rehire,
+        SUM(CASE WHEN staff_type_id = '6' THEN 1 ELSE 0 END) AS standardized_training,
+        SUM(CASE WHEN staff_type_id = '7' THEN 1 ELSE 0 END) AS intern,
+        SUM(CASE WHEN staff_type_id = '8' THEN 1 ELSE 0 END) AS further_study,
+        SUM(CASE WHEN staff_type_id = '9' THEN 1 ELSE 0 END) AS pre_report,
+        SUM(CASE WHEN staff_type_id = '0' THEN 1 ELSE 0 END) AS other_type,
+        SUM(CASE WHEN staff_type_id IS NULL OR staff_type_id = '' THEN 1 ELSE 0 END) AS unknown_employment_type,
+
+        -- 工作年限分布
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) &lt; 1 THEN 1 ELSE 0 END) AS less_than_1_year,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) >= 1
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) &lt; 2 THEN 1 ELSE 0 END) AS years_1_2,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) >= 2
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) &lt; 5 THEN 1 ELSE 0 END) AS years_2_5,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) >= 5
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) &lt; 10 THEN 1 ELSE 0 END) AS years_5_10,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) >= 10
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) &lt; 20 THEN 1 ELSE 0 END) AS years_10_20,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, date_of_work)/12) >= 20 THEN 1 ELSE 0 END) AS more_than_20,
+        SUM(CASE WHEN date_of_work IS NULL THEN 1 ELSE 0 END) AS unknown_experience,
+
+        -- 到院年限分布
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) &lt; 1 THEN 1 ELSE 0 END) AS hospital_less_than_1_year,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) >= 1
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) &lt; 2 THEN 1 ELSE 0 END) AS hospital_1_2_years,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) >= 2
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) &lt; 5 THEN 1 ELSE 0 END) AS hospital_2_5_years,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) >= 5
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) &lt; 10 THEN 1 ELSE 0 END) AS hospital_5_10_years,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) >= 10
+        AND FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) &lt; 20 THEN 1 ELSE 0 END) AS hospital_10_20_years,
+        SUM(CASE WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, enter_date)/12) >= 20 THEN 1 ELSE 0 END) AS hospital_more_than_20,
+        SUM(CASE WHEN enter_date IS NULL THEN 1 ELSE 0 END) AS unknown_hospital_tenure,
+
+        -- 中医院校分布
+        --SUM(CASE WHEN is_tcm_school = '是' THEN 1 ELSE 0 END) AS is_z,
+        --SUM(CASE WHEN is_tcm_school = '否' THEN 1 ELSE 0 END) AS not_z,
+        --SUM(CASE WHEN is_tcm_school IS NULL OR is_tcm_school NOT IN ('是', '否') THEN 1 ELSE 0 END) AS unkown_z,
+
+        -- 专业类别
+        SUM(CASE WHEN specialty = '护理' THEN 1 ELSE 0 END) AS nursing,
+        SUM(CASE WHEN specialty = '助产' THEN 1 ELSE 0 END) AS midwifery,
+        SUM(CASE WHEN specialty IS NULL OR specialty NOT IN ('护理', '助产') THEN 1 ELSE 0 END) AS unknown_specialty,
+
+        -- 在职状态
+        SUM(CASE WHEN a.status = '0' THEN 1 ELSE 0 END) AS active,
+        SUM(CASE WHEN a.status = '1' THEN 1 ELSE 0 END) AS inactive
+
+        FROM
+
+        nmis.nmis_hr_user a
+        LEFT JOIN nmis.nmis_dept_dict b ON a.dept_id = b.dept_id
+        LEFT JOIN nmis.nmis_hr_user_edu c ON a.nurse_id = c.nurse_id
+        <where>
+            <if test="deptId != null "> and a.dept_id = #{deptId}</if>
+        </where>
+        GROUP BY
+        a.dept_id, b.dept_name
+        ORDER BY
+        a.dept_id
+    </select>
+
+</mapper>

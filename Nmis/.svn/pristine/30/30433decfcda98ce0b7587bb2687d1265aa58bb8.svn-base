@@ -1,0 +1,96 @@
+package com.ydl.nmis.schedule.service.impl;
+
+
+import java.util.List;
+
+import com.ydl.nmis.schedule.domain.NmisScheDict;
+import com.ydl.nmis.schedule.mapper.NmisScheDictMapper;
+import com.ydl.nmis.schedule.service.INmisScheDictService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * 护理班次字典Service业务层处理
+ *
+ * @author ydl
+ * @date 2025-03-18
+ */
+@Service
+public class NmisScheDictServiceImpl implements INmisScheDictService
+{
+    @Autowired
+    private NmisScheDictMapper nmisScheDictMapper;
+
+    /**
+     * 查询护理班次字典
+     *
+     * @param id 护理班次字典主键
+     * @return 护理班次字典
+     */
+    @Override
+    public NmisScheDict selectNmisScheDictById(String id)
+    {
+        return nmisScheDictMapper.selectNmisScheDictById(id);
+    }
+
+    /**
+     * 查询护理班次字典列表
+     *
+     * @param nmisScheDict 护理班次字典
+     * @return 护理班次字典
+     */
+    @Override
+    public List<NmisScheDict> selectNmisScheDictList(NmisScheDict nmisScheDict)
+    {
+        return nmisScheDictMapper.selectNmisScheDictList(nmisScheDict);
+    }
+
+    /**
+     * 新增护理班次字典
+     *
+     * @param nmisScheDict 护理班次字典
+     * @return 结果
+     */
+    @Override
+    public int insertNmisScheDict(NmisScheDict nmisScheDict)
+    {
+        return nmisScheDictMapper.insertNmisScheDict(nmisScheDict);
+    }
+
+    /**
+     * 修改护理班次字典
+     *
+     * @param nmisScheDict 护理班次字典
+     * @return 结果
+     */
+    @Override
+    public int updateNmisScheDict(NmisScheDict nmisScheDict)
+    {
+        return nmisScheDictMapper.updateNmisScheDict(nmisScheDict);
+    }
+
+    /**
+     * 批量删除护理班次字典
+     *
+     * @param ids 需要删除的护理班次字典主键
+     * @return 结果
+     */
+    @Override
+    public int deleteNmisScheDictByIds(String[] ids)
+    {
+        return nmisScheDictMapper.deleteNmisScheDictByIds(ids);
+    }
+
+    /**
+     * 删除护理班次字典信息
+     *
+     * @param id 护理班次字典主键
+     * @return 结果
+     */
+    @Override
+    public int deleteNmisScheDictById(String id)
+    {
+        return nmisScheDictMapper.deleteNmisScheDictById(id);
+    }
+}
+

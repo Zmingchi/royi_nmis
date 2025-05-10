@@ -1,0 +1,62 @@
+package com.ydl.nmis.schedule.mapper;
+
+import com.ydl.nmis.schedule.dto.SchePlan;
+
+import java.util.List;
+
+/**
+ * 护理排班计划Mapper接口
+ *
+ * @author ydl
+ * @date 2025-03-28
+ */
+public interface SchePlanMapper
+{
+    /**
+     * 查询护理排班计划
+     *
+     * @param id 护理排班计划主键
+     * @return 护理排班计划
+     */
+    public SchePlan selectSchePlanById(String id);
+
+    /**
+     * 查询护理排班计划列表
+     *
+     * @param SchePlan 护理排班计划
+     * @return 护理排班计划集合
+     */
+    public List<SchePlan> selectSchePlanList(SchePlan SchePlan);
+
+    /**
+     * 新增护理排班计划
+     *
+     * @param SchePlan 护理排班计划
+     * @return 结果
+     */
+    public int insertSchePlan(SchePlan SchePlan);
+
+    /**
+     * 修改护理排班计划
+     *
+     * @param SchePlan 护理排班计划
+     * @return 结果
+     */
+    public int updateSchePlan(SchePlan SchePlan);
+
+    /**
+     * 删除护理排班计划
+     *
+     * @param id 护理排班计划主键
+     * @return 结果
+     */
+    public int deleteSchePlanById(String id);
+
+    /**
+     * 批量删除护理排班计划
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSchePlanByIds(String[] ids);
+}

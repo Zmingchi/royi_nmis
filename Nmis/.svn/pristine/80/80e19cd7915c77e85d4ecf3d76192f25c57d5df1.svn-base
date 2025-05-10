@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.schedule.mapper.NmisScheCombItemDictMapper">
+
+    <resultMap type="NmisScheCombItemDict" id="NmisScheCombItemDictResult">
+        <result property="id"    column="id"    />
+        <result property="combId"    column="comb_id"    />
+        <result property="combName"    column="group_name"    />
+        <result property="scheId"    column="sche_id"    />
+        <result property="scheName"    column="sche_name"    />
+        <result property="seqNo"    column="seq_no"    />
+    </resultMap>
+
+    <sql id="selectNmisScheCombItemDictVp">
+        select a.id, a.comb_id, b.group_name,a.sche_id,c.sche_name, a.seq_no from nmis.nmis_sche_comb_item_dict a
+             left join nmis.nmis_sche_comp_dict b on a.comb_id = b.id
+             left join nmis.nmis_sche_dict c on a.sche_id = c.id
+    </sql>
+
+    <sql id="selectNmisScheCombItemDictVo">
+        select a.id, a.comb_id, b.group_name,a.sche_id,c.sche_name, a.seq_no from nmis.nmis_sche_comb_item_dict a
+    </sql>
+
+    <select id="selectNmisScheCombItemDictList" parameterType="NmisScheCombItemDict" resultMap="NmisScheCombItemDictResult">
+        <include refid="selectNmisScheCombItemDictVp"/>
+        <where>
+            <if test="id != null  and id != ''"> and a.id = #{id}</if>
+            <if test="combId != null  and combId != ''"> and a.comb_id = #{combId}</if>
+            <if test="combName != null  and combName != ''"> and b.group_name = #{combName}</if>
+            <if test="scheName != null  and scheName != ''"> and c.sche_Name = #{scheName}</if>
+            <if test="seqNo != null "> and c.seq_no = #{seqNo}</if>
+        </where>
+    </select>
+
+    <select id="selectNmisScheCombItemDictById" parameterType="String" resultMap="NmisScheCombItemDictResult">
+        <include refid="selectNmisScheCombItemDictVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertNmisScheCombItemDict" parameterType="NmisScheCombItemDict" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            select NMIS.SEQ_sche_comb_item_dict.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_sche_comb_item_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="combId != null">comb_id,</if>
+            <if test="scheId != null">sche_id,</if>
+            <if test="seqNo != null">seq_no,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="combId != null">#{combId},</if>
+            <if test="scheId != null">#{scheId},</if>
+            <if test="seqNo != null">#{seqNo},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNmisScheCombItemDict" parameterType="NmisScheCombItemDict">
+        update nmis.nmis_sche_comb_item_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="combId != null">comb_id = #{combId},</if>
+            <if test="scheId != null">sche_id = #{scheId},</if>
+            <if test="seqNo != null">seq_no = #{seqNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisScheCombItemDictById" parameterType="String">
+        delete from nmis.nmis_sche_comb_item_dict where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisScheCombItemDictByIds" parameterType="String">
+        delete from nmis.nmis_sche_comb_item_dict where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

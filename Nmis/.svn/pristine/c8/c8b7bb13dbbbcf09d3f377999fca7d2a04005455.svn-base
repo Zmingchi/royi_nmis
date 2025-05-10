@@ -1,0 +1,67 @@
+package com.ydl.nmis.schedule.service;
+
+
+import com.ydl.nmis.schedule.dto.ScheMaster;
+
+import java.util.List;
+
+/**
+ * 护理排班主Service接口
+ *
+ * @author ydl
+ * @date 2025-03-28
+ */
+
+
+public interface ScheMasterService
+{
+    /**
+     * 查询护理排班主
+     *
+     * @param id 护理排班主主键
+     * @return 护理排班主
+     */
+    public ScheMaster selectScheMasterById(String id);
+
+    /**
+     * 查询护理排班主列表
+     *
+     * @param ScheMaster 护理排班主
+     * @return 护理排班主集合
+     */
+    public List<ScheMaster> selectScheMasterList(ScheMaster ScheMaster);
+
+    /**
+     * 新增护理排班主
+     *
+     * @param ScheMaster 护理排班主
+     * @return 结果
+     */
+    public int insertScheMaster(ScheMaster ScheMaster);
+
+    /**
+     * 修改护理排班主
+     *
+     * @param ScheMaster 护理排班主
+     * @return 结果
+     */
+    public int updateScheMaster(ScheMaster ScheMaster);
+
+    /**
+     * 批量删除护理排班主
+     *
+     * @param ids 需要删除的护理排班主主键集合
+     * @return 结果
+     */
+    public int deleteScheMasterByIds(String[] ids);
+
+    /**
+     * 删除护理排班主信息
+     *
+     * @param id 护理排班主主键
+     * @return 结果
+     */
+    public int deleteScheMasterById(String id);
+}
+
+

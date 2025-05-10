@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.schedule.mapper.NursingUnitStaffDetailMapper">
+    <resultMap id="nursingUnitStaffReportMap" type="NursingUnitStaffReport">
+        <!-- Count fields -->
+        <result property="hospitalName" column="hospital_name"/>
+        <result property="totalStaff" column="total_staff"/>
+        <result property="unitStaff" column="unit_staff"/>
+
+        <!-- Date and department info -->
+        <result property="scheDate" column="sche_date"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+
+        <!-- Ratio calculation -->
+        <result property="bedNurseRatio" column="bed_nurse_ratio"/>
+
+        <!-- Staff type counts -->
+        <result property="licensedNurses" column="licensed_nurses"/>
+        <result property="trainees" column="trainees"/>
+        <result property="interns" column="interns"/>
+
+        <!-- Nurse level counts -->
+        <result property="n01" column="n0_1"/>
+        <result property="n02" column="n0_2"/>
+        <result property="n03" column="n0_3"/>
+        <result property="n11" column="n1_1"/>
+        <result property="n12" column="n1_2"/>
+        <result property="n21" column="n2_1"/>
+        <result property="n22" column="n2_2"/>
+        <result property="n31" column="n3_1"/>
+        <result property="n32" column="n3_2"/>
+        <result property="n4" column="n4"/>
+
+        <!-- Status counts -->
+        <result property="onDuty" column="on_duty"/>
+        <result property="onLeave" column="on_leave"/>
+        <result property="dispatched" column="dispatched"/>
+        <result property="maternityLeave" column="maternity_leave"/>
+
+        <!--collection property="nursingUnitStaffDetail" ofType="com.ydl.nmis.schedule.dto.NursingUnitStaffDetail" column="{deptId=dept_id, scheDate=sche_date}" select="com.ydl.nmis.schedule.mapper.NursingUnitStaffDetailMapper.selectStaffDetailsByDept"/-->
+
+    </resultMap>
+
+    <resultMap id="nursingUnitStaffDetailMap" type="NursingUnitStaffDetail">
+        <!-- 基本属性映射 -->
+        <result property="nurseName" column="nurse_name" />
+        <result property="workYear" column="work_year" />
+
+        <!-- 日期类型映射，注意与@JsonFormat格式一致 -->
+        <result property="scheDate" column="sche_date" jdbcType="DATE" />
+
+        <result property="nurseLevel" column="nurse_level" />
+        <result property="deptId" column="dept_id" />
+        <result property="scheName" column="sche_name" />
+    </resultMap>
+
+
+
+    <select id="selectNursingUnitStaffReport" resultMap="nursingUnitStaffReportMap">
+        SELECT
+        '辉县人民医院' hospital_name,
+        (SELECT COUNT(1) FROM nmis.nmis_hr_user) AS total_staff,
+        COUNT(1) AS unit_staff,
+        c.sche_date,
+        c.dept_id,
+        c.dept_name,
+        trunc( b.bed_num/b.nurse_num ,2) AS bed_nurse_ratio,
+        SUM(CASE WHEN a.register_no IS NOT NULL THEN 1 ELSE 0 END) AS licensed_nurses,
+        SUM(CASE a.staff_type_id WHEN '7' THEN 1 ELSE 0 END) AS trainees,
+        SUM(CASE a.staff_type_id WHEN '6' THEN 1 ELSE 0 END) AS interns,
+        SUM(CASE WHEN a.nurse_level = '0' THEN 1 ELSE 0 END) AS n0_1,
+        SUM(CASE WHEN a.nurse_level = '1' THEN 1 ELSE 0 END) AS n0_2,
+        SUM(CASE WHEN a.nurse_level = '2' THEN 1 ELSE 0 END) AS n0_3,
+        SUM(CASE WHEN a.nurse_level = '3' THEN 1 ELSE 0 END) AS n1_1,
+        SUM(CASE WHEN a.nurse_level = '4' THEN 1 ELSE 0 END) AS n1_2,
+        SUM(CASE WHEN a.nurse_level = '5' THEN 1 ELSE 0 END) AS n2_1,
+        SUM(CASE WHEN a.nurse_level = '6' THEN 1 ELSE 0 END) AS n2_2,
+        SUM(CASE WHEN a.nurse_level = '7' THEN 1 ELSE 0 END) AS n3_1,
+        SUM(CASE WHEN a.nurse_level = '8' THEN 1 ELSE 0 END) AS n3_2,
+        SUM(CASE WHEN a.nurse_level = '9' THEN 1 ELSE 0 END) AS n4,
+        SUM(CASE WHEN d.hours IS NOT NULL OR d.hours != 0 THEN 1 ELSE 0 END) AS on_duty,
+        SUM(CASE WHEN d.sche_name LIKE '%请假%' THEN 1 ELSE 0 END) AS on_leave,
+        SUM(CASE WHEN e.nurse_id IS NOT NULL THEN 1 ELSE 0 END) AS dispatched,
+        SUM(CASE WHEN d.sche_name LIKE '%产假%' THEN 1 ELSE 0 END) AS maternity_leave
+        FROM nmis.nmis_hr_user a
+        LEFT JOIN nmis.nmis_sche_detail c
+        ON a.nurse_id = c.nurse_id
+        LEFT JOIN nmis.nmis_sche_dict d
+        ON c.sche_item_id = d.id
+        LEFT JOIN nmis.nmis_bed_rate b
+        ON c.dept_id = b.dept_id and c.sche_date = b.record_date
+        LEFT JOIN nmis.nmis_hr_expatriate e
+        ON a.nurse_id = e.nurse_id
+        AND c.sche_date BETWEEN e.begin_date AND e.end_date
+        <where>
+            <if test="deptId != null and deptId != ''"> and c.dept_id = #{deptId}</if>
+            <if test="scheDate != null"> and c.sche_date = #{scheDate}</if>
+
+            <!--and del_flag = 0-->
+        </where>
+        and c.sche_item_id is not null
+        GROUP BY  c.dept_id, c.dept_name ,c.sche_date,b.bed_num,b.nurse_num
+
+    </select>
+
+    <select id="selectStaffDetailsByDept" resultType="com.ydl.nmis.schedule.dto.NursingUnitStaffDetail">
+        SELECT
+        a.nurse_name AS nurseName,
+        trunc(sysdate - b.date_of_work,1) AS workYear,
+        a.sche_date AS scheDate,
+        c.item_name AS nurseLevel,
+        a.dept_id AS deptId,
+        d.sche_name scheName
+        from nmis.nmis_sche_detail a
+        left join nmis.nmis_hr_user b
+        on a.nurse_id = b.nurse_id
+        left join nmis.nmis_comm_dict c
+        on b.nurse_level = c.item_code and c.type_id = 28
+        left join nmis.nmis_sche_dict d on a.sche_item_id = d.id
+        left join nmis.nmis_sche_plan e
+        on a.plan_id = e.id
+        <where>
+            <if test="deptId != null  and deptId != ''"> and  a.dept_id = #{deptId}</if>
+            <if test="scheDate != null"> and a.sche_date = #{scheDate}</if>
+            <if test="1 = 1"> </if>
+            <!--and del_flag = 0-->
+        </where>
+        and e.status = '2'
+
+    </select>
+
+    <select id="selectStaffDetailsByDept2" resultMap="nursingUnitStaffDetailMap">
+        SELECT
+        a.nurse_name ,  <!-- 使用别名匹配Java属性 -->
+        trunc(sysdate - b.date_of_work,1) work_year,  <!-- 计算结果命名需匹配 -->
+        a.sche_date ,
+        d.item_name nurse_level,
+        a.dept_id,
+        c.sche_name
+        from nmis.nmis_sche_detail a
+        left join nmis.nmis_hr_user b
+        on a.nurse_id = b.nurse_id
+        left join nmis.nmis_sche_dict c on a.sche_item_id = c.id
+        left join nmis.nmis_comm_dict d
+        on b.nurse_level = d.item_code and d.type_id = 28
+        left join nmis.nmis_sche_plan e
+        on a.plan_id = e.id
+        <where>
+            <if test="deptId != null  and deptId != ''"> and  a.dept_id = #{deptId}</if>
+            <if test="scheDate != null"> and a.sche_date = #{scheDate}</if>
+            <if test="scheName != null and scheName != ''"> and c.sche_name = #{scheName}</if>
+            <!--and del_flag = 0-->
+        </where>
+/*        and c.sche_name is not null
+*/        and e.status = '2'
+    </select>
+
+</mapper>

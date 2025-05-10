@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrUserMapper">
+
+    <resultMap type="NmisHrUser" id="NmisHrUserResult">
+        <result property="id"    column="id"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="dateOfBirth"    column="date_of_birth"    />
+        <result property="title"    column="title"    />
+        <result property="dateOfTitle"    column="date_of_title"    />
+        <result property="duty"    column="duty"    />
+        <result property="dateOfDuty"    column="date_of_duty"    />
+        <result property="dateOfWork"    column="date_of_work"    />
+        <result property="dateOfHire"    column="date_of_hire"    />
+        <result property="politicalFeature"    column="political_feature"    />
+        <result property="nativePlace"    column="native_place"    />
+        <result property="maritalStatus"    column="marital_status"    />
+        <result property="homeAddress"    column="home_address"    />
+        <result property="zipCode"    column="zip_code"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="nextOfKin"    column="next_of_kin"    />
+        <result property="nextOfKinPhone"    column="next_of_kin_phone"    />
+        <result property="nextOfKinAddr"    column="next_of_kin_addr"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="certNo"    column="cert_no"    />
+        <result property="nation"    column="nation"    />
+        <result property="email"    column="email"    />
+        <result property="bodyWeight"    column="body_weight"    />
+        <result property="bodyHeight"    column="body_height"    />
+        <result property="picture"    column="picture"    />
+        <result property="nurseAge"    column="nurse_age"    />
+        <result property="registerNo"    column="register_no"    />
+        <result property="registerDate"    column="register_date"    />
+        <result property="registerAttach"    column="register_attach"    />
+        <result property="nurseLevel"    column="nurse_level"    />
+        <result property="nurseLevelDate"    column="nurse_level_date"    />
+        <result property="enterDate"    column="enter_date"    />
+        <result property="levelDate"    column="level_date"    />
+        <result property="leaveReason"    column="leave_reason"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="englishLevel"    column="english_level"    />
+        <result property="wardCode"    column="ward_code"    />
+        <result property="defaultWardCode"    column="default_ward_code"    />
+        <result property="coatSize"    column="coat_size"    />
+        <result property="trouserSize"    column="trouser_size"    />
+        <result property="shoeSize"    column="shoe_size"    />
+        <result property="teachTypeId"    column="teach_type_id"    />
+        <result property="teachTypeName"    column="teach_type_name"    />
+        <result property="postId"    column="post_id"    />
+        <result property="postName"    column="post_name"    />
+        <result property="staffTypeId"    column="staff_type_id"    />
+        <result property="staffTypeName"    column="staff_type_name"    />
+        <result property="inputCode"    column="input_code"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="deptcode"    column="dept_code"    />
+
+    </resultMap>
+
+    <sql id="selectNmisHrUserVo">
+        select id, nurse_id, name, sex, date_of_birth, title, date_of_title, duty, date_of_duty, date_of_work, date_of_hire, political_feature, native_place, marital_status, home_address, zip_code, phone_number, next_of_kin, next_of_kin_phone, next_of_kin_addr, cert_type, cert_no, nation, email, body_weight, body_height, picture, nurse_age, register_no, register_date, register_attach, nurse_level, nurse_level_date, enter_date, level_date, leave_reason, specialty, english_level, ward_code, default_ward_code, coat_size, trouser_size, shoe_size, teach_type_id, teach_type_name, post_id, post_name, staff_type_id, staff_type_name, input_code, serial_no, status, del_flag, revision, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code,dept_code from nmis.nmis_hr_user
+    </sql>
+
+    <select id="selectNmisHrUserList" parameterType="NmisHrUser" resultMap="NmisHrUserResult">
+        <include refid="selectNmisHrUserVo"/>
+        <where>
+            <if test="nurseId != null "> and nurse_id = #{nurseId}</if>
+            <if test="name != null  and name != ''"> and name like CONCAT(concat('%', #{name}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="dateOfBirth != null "> and date_of_birth = #{dateOfBirth}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="dateOfTitle != null "> and date_of_title = #{dateOfTitle}</if>
+            <if test="duty != null  and duty != ''"> and duty = #{duty}</if>
+            <if test="dateOfDuty != null "> and date_of_duty = #{dateOfDuty}</if>
+            <if test="dateOfWork != null "> and date_of_work = #{dateOfWork}</if>
+            <if test="dateOfHire != null "> and date_of_hire = #{dateOfHire}</if>
+            <if test="politicalFeature != null  and politicalFeature != ''"> and political_feature = #{politicalFeature}</if>
+            <if test="nativePlace != null  and nativePlace != ''"> and native_place = #{nativePlace}</if>
+            <if test="maritalStatus != null  and maritalStatus != ''"> and marital_status = #{maritalStatus}</if>
+            <if test="homeAddress != null  and homeAddress != ''"> and home_address = #{homeAddress}</if>
+            <if test="zipCode != null  and zipCode != ''"> and zip_code = #{zipCode}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="nextOfKin != null  and nextOfKin != ''"> and next_of_kin = #{nextOfKin}</if>
+            <if test="nextOfKinPhone != null  and nextOfKinPhone != ''"> and next_of_kin_phone = #{nextOfKinPhone}</if>
+            <if test="nextOfKinAddr != null  and nextOfKinAddr != ''"> and next_of_kin_addr = #{nextOfKinAddr}</if>
+            <if test="certType != null  and certType != ''"> and cert_type = #{certType}</if>
+            <if test="certNo != null  and certNo != ''"> and cert_no = #{certNo}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="bodyWeight != null "> and body_weight = #{bodyWeight}</if>
+            <if test="bodyHeight != null "> and body_height = #{bodyHeight}</if>
+            <if test="picture != null  and picture != ''"> and picture = #{picture}</if>
+            <if test="nurseAge != null  and nurseAge != ''"> and nurse_age = #{nurseAge}</if>
+            <if test="registerNo != null  and registerNo != ''"> and register_no = #{registerNo}</if>
+            <if test="registerDate != null "> and register_date = #{registerDate}</if>
+            <if test="registerAttach != null  and registerAttach != ''"> and register_attach = #{registerAttach}</if>
+            <if test="nurseLevel != null  and nurseLevel != ''"> and nurse_level = #{nurseLevel}</if>
+            <if test="nurseLevelDate != null "> and nurse_level_date = #{nurseLevelDate}</if>
+            <if test="enterDate != null "> and enter_date = #{enterDate}</if>
+            <if test="levelDate != null "> and level_date = #{levelDate}</if>
+            <if test="leaveReason != null  and leaveReason != ''"> and leave_reason = #{leaveReason}</if>
+            <if test="specialty != null  and specialty != ''"> and specialty = #{specialty}</if>
+            <if test="englishLevel != null  and englishLevel != ''"> and english_level = #{englishLevel}</if>
+            <if test="wardCode != null  and wardCode != ''"> and ward_code = #{wardCode}</if>
+            <if test="defaultWardCode != null  and defaultWardCode != ''"> and default_ward_code = #{defaultWardCode}</if>
+            <if test="coatSize != null  and coatSize != ''"> and coat_size = #{coatSize}</if>
+            <if test="trouserSize != null  and trouserSize != ''"> and trouser_size = #{trouserSize}</if>
+            <if test="shoeSize != null  and shoeSize != ''"> and shoe_size = #{shoeSize}</if>
+            <if test="teachTypeId != null  and teachTypeId != ''"> and teach_type_id = #{teachTypeId}</if>
+            <if test="teachTypeName != null  and teachTypeName != ''"> and teach_type_name like concat('%', #{teachTypeName}, '%')</if>
+            <if test="postId != null  and postId != ''"> and post_id = #{postId}</if>
+            <if test="postName != null  and postName != ''"> and post_name like concat('%', #{postName}, '%')</if>
+            <if test="staffTypeId != null  and staffTypeId != ''"> and staff_type_id = #{staffTypeId}</if>
+            <if test="staffTypeName != null  and staffTypeName != ''"> and staff_type_name like concat('%', #{staffTypeName}, '%')</if>
+            <if test="inputCode != null  and inputCode != ''"> and input_code = #{inputCode}</if>
+            <if test="serialNo != null "> and serial_no = #{serialNo}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="revision != null "> and revision = #{revision}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null "> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+            <if test="deptcode != null  and deptcode != ''"> and dept_code = #{deptcode}</if>
+
+        </where>
+    </select>
+
+    <select id="selectNmisHrUserById" parameterType="Long" resultMap="NmisHrUserResult">
+        <include refid="selectNmisHrUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNmisHrUser" parameterType="NmisHrUser" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_hr_user.nextval as id from DUAL
+        </selectKey>
+        insert into nmis.nmis_hr_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="name != null">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="dateOfBirth != null">date_of_birth,</if>
+            <if test="title != null">title,</if>
+            <if test="dateOfTitle != null">date_of_title,</if>
+            <if test="duty != null">duty,</if>
+            <if test="dateOfDuty != null">date_of_duty,</if>
+            <if test="dateOfWork != null">date_of_work,</if>
+            <if test="dateOfHire != null">date_of_hire,</if>
+            <if test="politicalFeature != null">political_feature,</if>
+            <if test="nativePlace != null">native_place,</if>
+            <if test="maritalStatus != null">marital_status,</if>
+            <if test="homeAddress != null">home_address,</if>
+            <if test="zipCode != null">zip_code,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="nextOfKin != null">next_of_kin,</if>
+            <if test="nextOfKinPhone != null">next_of_kin_phone,</if>
+            <if test="nextOfKinAddr != null">next_of_kin_addr,</if>
+            <if test="certType != null">cert_type,</if>
+            <if test="certNo != null">cert_no,</if>
+            <if test="nation != null">nation,</if>
+            <if test="email != null">email,</if>
+            <if test="bodyWeight != null">body_weight,</if>
+            <if test="bodyHeight != null">body_height,</if>
+            <if test="picture != null">picture,</if>
+            <if test="nurseAge != null">nurse_age,</if>
+            <if test="registerNo != null">register_no,</if>
+            <if test="registerDate != null">register_date,</if>
+            <if test="registerAttach != null">register_attach,</if>
+            <if test="nurseLevel != null">nurse_level,</if>
+            <if test="nurseLevelDate != null">nurse_level_date,</if>
+            <if test="enterDate != null">enter_date,</if>
+            <if test="levelDate != null">level_date,</if>
+            <if test="leaveReason != null">leave_reason,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="englishLevel != null">english_level,</if>
+            <if test="wardCode != null">ward_code,</if>
+            <if test="defaultWardCode != null">default_ward_code,</if>
+            <if test="coatSize != null">coat_size,</if>
+            <if test="trouserSize != null">trouser_size,</if>
+            <if test="shoeSize != null">shoe_size,</if>
+            <if test="teachTypeId != null">teach_type_id,</if>
+            <if test="teachTypeName != null">teach_type_name,</if>
+            <if test="postId != null">post_id,</if>
+            <if test="postName != null">post_name,</if>
+            <if test="staffTypeId != null">staff_type_id,</if>
+            <if test="staffTypeName != null">staff_type_name,</if>
+            <if test="inputCode != null">input_code,</if>
+            <if test="serialNo != null">serial_no,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+            <if test="deptcode != null">dept_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="dateOfBirth != null">#{dateOfBirth},</if>
+            <if test="title != null">#{title},</if>
+            <if test="dateOfTitle != null">#{dateOfTitle},</if>
+            <if test="duty != null">#{duty},</if>
+            <if test="dateOfDuty != null">#{dateOfDuty},</if>
+            <if test="dateOfWork != null">#{dateOfWork},</if>
+            <if test="dateOfHire != null">#{dateOfHire},</if>
+            <if test="politicalFeature != null">#{politicalFeature},</if>
+            <if test="nativePlace != null">#{nativePlace},</if>
+            <if test="maritalStatus != null">#{maritalStatus},</if>
+            <if test="homeAddress != null">#{homeAddress},</if>
+            <if test="zipCode != null">#{zipCode},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="nextOfKin != null">#{nextOfKin},</if>
+            <if test="nextOfKinPhone != null">#{nextOfKinPhone},</if>
+            <if test="nextOfKinAddr != null">#{nextOfKinAddr},</if>
+            <if test="certType != null">#{certType},</if>
+            <if test="certNo != null">#{certNo},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bodyWeight != null">#{bodyWeight},</if>
+            <if test="bodyHeight != null">#{bodyHeight},</if>
+            <if test="picture != null">#{picture},</if>
+            <if test="nurseAge != null">#{nurseAge},</if>
+            <if test="registerNo != null">#{registerNo},</if>
+            <if test="registerDate != null">#{registerDate},</if>
+            <if test="registerAttach != null">#{registerAttach},</if>
+            <if test="nurseLevel != null">#{nurseLevel},</if>
+            <if test="nurseLevelDate != null">#{nurseLevelDate},</if>
+            <if test="enterDate != null">#{enterDate},</if>
+            <if test="levelDate != null">#{levelDate},</if>
+            <if test="leaveReason != null">#{leaveReason},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="englishLevel != null">#{englishLevel},</if>
+            <if test="wardCode != null">#{wardCode},</if>
+            <if test="defaultWardCode != null">#{defaultWardCode},</if>
+            <if test="coatSize != null">#{coatSize},</if>
+            <if test="trouserSize != null">#{trouserSize},</if>
+            <if test="shoeSize != null">#{shoeSize},</if>
+            <if test="teachTypeId != null">#{teachTypeId},</if>
+            <if test="teachTypeName != null">#{teachTypeName},</if>
+            <if test="postId != null">#{postId},</if>
+            <if test="postName != null">#{postName},</if>
+            <if test="staffTypeId != null">#{staffTypeId},</if>
+            <if test="staffTypeName != null">#{staffTypeName},</if>
+            <if test="inputCode != null">#{inputCode},</if>
+            <if test="serialNo != null">#{serialNo},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+            <if test="deptcode != null">#{deptcode},</if>
+
+        </trim>
+    </insert>
+
+    <update id="updateNurse" parameterType="NmisHrUser">
+        UPDATE nmis.nmis_hr_user
+        SET picture = #{picture}, registerAttach = #{registerAttach}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateNmisHrUser" parameterType="NmisHrUser">
+        update nmis.nmis_hr_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="dateOfBirth != null">date_of_birth = #{dateOfBirth},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="dateOfTitle != null">date_of_title = #{dateOfTitle},</if>
+            <if test="duty != null">duty = #{duty},</if>
+            <if test="dateOfDuty != null">date_of_duty = #{dateOfDuty},</if>
+            <if test="dateOfWork != null">date_of_work = #{dateOfWork},</if>
+            <if test="dateOfHire != null">date_of_hire = #{dateOfHire},</if>
+            <if test="politicalFeature != null">political_feature = #{politicalFeature},</if>
+            <if test="nativePlace != null">native_place = #{nativePlace},</if>
+            <if test="maritalStatus != null">marital_status = #{maritalStatus},</if>
+            <if test="homeAddress != null">home_address = #{homeAddress},</if>
+            <if test="zipCode != null">zip_code = #{zipCode},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="nextOfKin != null">next_of_kin = #{nextOfKin},</if>
+            <if test="nextOfKinPhone != null">next_of_kin_phone = #{nextOfKinPhone},</if>
+            <if test="nextOfKinAddr != null">next_of_kin_addr = #{nextOfKinAddr},</if>
+            <if test="certType != null">cert_type = #{certType},</if>
+            <if test="certNo != null">cert_no = #{certNo},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="bodyWeight != null">body_weight = #{bodyWeight},</if>
+            <if test="bodyHeight != null">body_height = #{bodyHeight},</if>
+            <if test="picture != null">picture = #{picture},</if>
+            <if test="nurseAge != null">nurse_age = #{nurseAge},</if>
+            <if test="registerNo != null">register_no = #{registerNo},</if>
+            <if test="registerDate != null">register_date = #{registerDate},</if>
+            <if test="registerAttach != null">register_attach = #{registerAttach},</if>
+            <if test="nurseLevel != null">nurse_level = #{nurseLevel},</if>
+            <if test="nurseLevelDate != null">nurse_level_date = #{nurseLevelDate},</if>
+            <if test="enterDate != null">enter_date = #{enterDate},</if>
+            <if test="levelDate != null">level_date = #{levelDate},</if>
+            <if test="leaveReason != null">leave_reason = #{leaveReason},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="englishLevel != null">english_level = #{englishLevel},</if>
+            <if test="wardCode != null">ward_code = #{wardCode},</if>
+            <if test="defaultWardCode != null">default_ward_code = #{defaultWardCode},</if>
+            <if test="coatSize != null">coat_size = #{coatSize},</if>
+            <if test="trouserSize != null">trouser_size = #{trouserSize},</if>
+            <if test="shoeSize != null">shoe_size = #{shoeSize},</if>
+            <if test="teachTypeId != null">teach_type_id = #{teachTypeId},</if>
+            <if test="teachTypeName != null">teach_type_name = #{teachTypeName},</if>
+            <if test="postId != null">post_id = #{postId},</if>
+            <if test="postName != null">post_name = #{postName},</if>
+            <if test="staffTypeId != null">staff_type_id = #{staffTypeId},</if>
+            <if test="staffTypeName != null">staff_type_name = #{staffTypeName},</if>
+            <if test="inputCode != null">input_code = #{inputCode},</if>
+            <if test="serialNo != null">serial_no = #{serialNo},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+            <if test="deptcode != null">dept_code = #{deptcode},</if>
+
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisHrUserById" parameterType="Long">
+        delete from nmis.nmis_hr_user where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisHrUserByIds" parameterType="String">
+        delete from nmis.nmis_hr_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+</mapper>

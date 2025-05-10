@@ -1,0 +1,130 @@
+package com.ydl.nmis.schedule.service.impl;
+
+import com.ydl.nmis.schedule.domain.NmisScheMaster;
+import com.ydl.nmis.schedule.dto.*;
+import com.ydl.nmis.schedule.mapper.NmisScheMasterMapper;
+import com.ydl.nmis.schedule.mapper.ScheWeekDetail;
+import com.ydl.nmis.schedule.service.ScheWeekDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class ScheWeekDetailServiceImpl implements ScheWeekDetailService {
+
+    @Autowired
+    private ScheWeekDetail scheWeekDetail;
+
+    @Autowired
+    private NmisScheMasterMapper nmisScheMasterMapper;
+
+
+    @Override
+    public List<ScheGroup> getAllGroups(String deptId, Date startDate, Date endDate) {
+        // 1. 查询组信息：deptId为空时查询所有科室
+        List<ScheGroup> groups = (deptId != null && !deptId.isEmpty())
+                ? scheWeekDetail.selectBaseGroupsByDept(deptId)
+                : scheWeekDetail.selectAllBaseGroups(); // 需新增Mapper方法
+
+        // 2. 查询成员时传递deptId（允许为空）
+        groups.forEach(group -> {
+            List<Member> members = scheWeekDetail.selectMembersByGroupId(group.getId(), deptId);
+            group.setChildren(members);
+        });
+
+        // 3. 查询排班数据（允许deptId为空）
+        List<MemberDayDataDTO> allDayData = scheWeekDetail.selectMemberDayData(deptId, startDate, endDate);
+
+        // 4. 按成员ID分组每日数据
+        Map<String, List<MemberDayDataDTO>> memberDaysMap = allDayData.stream()
+                .collect(Collectors.groupingBy(MemberDayDataDTO::getMemberId));
+
+        // 5. 为每个成员设置day1-day7数据
+        groups.forEach(group -> {
+            if (!CollectionUtils.isEmpty(group.getChildren())) {
+                group.getChildren().forEach(member -> {
+                    // 初始化所有天的空数据
+                    initializeAllDays(member);
+
+                    // 填充有数据的日期
+                    List<MemberDayDataDTO> dayDataList = memberDaysMap.get(member.getId());
+                    if (dayDataList != null) {
+                        dayDataList.forEach(dto -> {
+                            String adjustedDayType = adjustDayType(dto.getDayType(), dto.getScheDate());
+                            member.setDayData(adjustedDayType, dto.getDayData());
+                        });
+                    }
+                });
+            }
+        });
+
+        return groups;
+    }
+
+
+    /**
+     * 新增护理排班主
+     *
+     * @param nmisScheMaster 护理排班主
+     * @return 结果
+     */
+    @Override
+    public int insertNmisScheMaster(NmisScheMaster nmisScheMaster)
+    {
+        return nmisScheMasterMapper.insertNmisScheMaster(nmisScheMaster);
+    }
+
+
+
+    /**
+     * 调整dayType映射关系
+     * Oracle的TO_CHAR(date,'D')返回: 1=星期日,2=星期一,...,7=星期六
+     * 根据业务需求转换为day1-day7
+     */
+    private String adjustDayType(String originalDayType, Date scheDate) {
+        // 示例：将Oracle的星期几(1-7)转换为day1(周一)-day7(周日)
+        try {
+            int dayNum = Integer.parseInt(originalDayType.replace("day", ""));
+            // Oracle: 1=周日,2=周一,...,7=周六
+            // 转换为: day1=周一,...,day7=周日
+            int adjustedDayNum = dayNum == 1 ? 7 : dayNum - 1;
+            return "day" + adjustedDayNum;
+        } catch (Exception e) {
+            /*log.warn("无法解析dayType: {}", originalDayType);*/
+            return originalDayType; // 保持原样或抛出异常
+        }
+    }
+
+
+    // 初始化所有天的空数据
+    private void initializeAllDays(Member member) {
+        // 创建默认的空数据对象
+        ScheDayData emptyDayData = createEmptyDayData();
+
+        // 设置所有天的默认空数据
+        for (int i = 1; i <= 7; i++) {
+            String dayType = "day" + i;
+            try {
+                if (member.getDayData(dayType) == null) {
+                    member.setDayData(dayType, emptyDayData);
+                }
+            } catch (IllegalArgumentException e) {
+
+            }
+        }
+    }
+
+    // 创建空的排班数据对象
+    private ScheDayData createEmptyDayData() {
+        ScheDayData emptyDayData = new ScheDayData();
+        emptyDayData.setName("未排班");
+        emptyDayData.setGs(0);
+        emptyDayData.setKj(0);
+        return emptyDayData;
+    }
+}

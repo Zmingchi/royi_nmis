@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.system.mapper.StaffDictMapper">
+
+    <select id="selectStrffList" resultType="StaffDict" parameterType="StaffDict">
+        SELECT id as id  ,
+               dept_code as deptCode ,
+               name ,
+               user_name as userName,
+               email ,
+               mobile ,
+               sex ,
+               password ,
+               status as flag,
+               ip
+        FROM comm.staff_dict
+    </select>
+</mapper>

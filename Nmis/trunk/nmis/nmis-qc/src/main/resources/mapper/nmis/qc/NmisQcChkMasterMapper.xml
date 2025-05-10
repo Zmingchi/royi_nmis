@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.qc.mapper.NmisQcChkMasterMapper">
+    
+    <resultMap type="NmisQcChkMaster" id="NmisQcChkMasterResult">
+        <result property="id"    column="id"    />
+        <result property="checkDate"    column="check_date"    />
+        <result property="planPaperId"    column="plan_paper_id"    />
+        <result property="paperId"    column="paper_id"    />
+        <result property="paperName"    column="paper_name"    />
+        <result property="dutyNurseId"    column="duty_nurse_id"    />
+        <result property="dutyNurseName"    column="duty_nurse_name"    />
+        <result property="score"    column="score"    />
+        <result property="randomFlag"    column="random_flag"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisQcChkMasterVo">
+        select id, check_date, plan_paper_id, paper_id, paper_name, duty_nurse_id, duty_nurse_name, score, random_flag, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_qc_chk_master
+    </sql>
+
+    <select id="selectNmisQcChkMasterList" parameterType="NmisQcChkMaster" resultMap="NmisQcChkMasterResult">
+        <include refid="selectNmisQcChkMasterVo"/>
+        <where>  
+            <if test="checkDate != null "> and check_date = #{checkDate}</if>
+            <if test="planPaperId != null  and planPaperId != ''"> and plan_paper_id = #{planPaperId}</if>
+            <if test="paperId != null  and paperId != ''"> and paper_id = #{paperId}</if>
+            <if test="paperName != null  and paperName != ''"> and paper_name like concat('%', #{paperName}, '%')</if>
+            <if test="dutyNurseId != null  and dutyNurseId != ''"> and duty_nurse_id = #{dutyNurseId}</if>
+            <if test="dutyNurseName != null  and dutyNurseName != ''"> and duty_nurse_name like concat('%', #{dutyNurseName}, '%')</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="randomFlag != null  and randomFlag != ''"> and random_flag = #{randomFlag}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectNmisQcChkMasterById" parameterType="String" resultMap="NmisQcChkMasterResult">
+        <include refid="selectNmisQcChkMasterVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNmisQcChkMaster" parameterType="NmisQcChkMaster" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select nmis.nmis_seq_qc_chk_master.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_qc_chk_master
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="checkDate != null">check_date,</if>
+            <if test="planPaperId != null">plan_paper_id,</if>
+            <if test="paperId != null">paper_id,</if>
+            <if test="paperName != null">paper_name,</if>
+            <if test="dutyNurseId != null">duty_nurse_id,</if>
+            <if test="dutyNurseName != null">duty_nurse_name,</if>
+            <if test="score != null">score,</if>
+            <if test="randomFlag != null">random_flag,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="checkDate != null">#{checkDate},</if>
+            <if test="planPaperId != null">#{planPaperId},</if>
+            <if test="paperId != null">#{paperId},</if>
+            <if test="paperName != null">#{paperName},</if>
+            <if test="dutyNurseId != null">#{dutyNurseId},</if>
+            <if test="dutyNurseName != null">#{dutyNurseName},</if>
+            <if test="score != null">#{score},</if>
+            <if test="randomFlag != null">#{randomFlag},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisQcChkMaster" parameterType="NmisQcChkMaster">
+        update nmis.nmis_qc_chk_master
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="checkDate != null">check_date = #{checkDate},</if>
+            <if test="planPaperId != null">plan_paper_id = #{planPaperId},</if>
+            <if test="paperId != null">paper_id = #{paperId},</if>
+            <if test="paperName != null">paper_name = #{paperName},</if>
+            <if test="dutyNurseId != null">duty_nurse_id = #{dutyNurseId},</if>
+            <if test="dutyNurseName != null">duty_nurse_name = #{dutyNurseName},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="randomFlag != null">random_flag = #{randomFlag},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisQcChkMasterById" parameterType="String">
+        delete from nmis.nmis_qc_chk_master where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisQcChkMasterByIds" parameterType="String">
+        delete from nmis.nmis_qc_chk_master where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

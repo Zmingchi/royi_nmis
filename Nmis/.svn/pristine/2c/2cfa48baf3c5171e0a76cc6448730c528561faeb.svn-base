@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.system.mapper.DeptDictMapper">
+
+    <select id="selectDeptDict" resultType="DeptDict" parameterType="DeptDict">
+        select serial_no as id ,
+               dept_code as deptCode,
+               dept_name as deptName,
+               input_code as inputCode,
+               unit_code as unitCode,
+               modify_date as modifyDate
+
+        from comm.dept_dict
+        where modify_date > sysdate-1    and dept_code like 'N%' /*预留时间限制*/
+    </select>
+</mapper>

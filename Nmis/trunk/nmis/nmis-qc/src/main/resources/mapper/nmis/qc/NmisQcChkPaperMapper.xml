@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.qc.mapper.NmisQcChkPaperMapper">
+    
+    <resultMap type="NmisQcChkPaper" id="NmisQcChkPaperResult">
+        <result property="id"    column="id"    />
+        <result property="paperName"    column="paper_name"    />
+        <result property="stdType"    column="std_type"    />
+        <result property="deptScope"    column="dept_scope"    />
+        <result property="scores"    column="scores"    />
+        <result property="pubDate"    column="pub_date"    />
+        <result property="status"    column="status"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisQcChkPaperVo">
+        select id, paper_name, std_type, dept_scope, scores, pub_date, status, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_qc_chk_paper
+    </sql>
+
+    <select id="selectNmisQcChkPaperList" parameterType="NmisQcChkPaper" resultMap="NmisQcChkPaperResult">
+        <include refid="selectNmisQcChkPaperVo"/>
+        <where>  
+            <if test="paperName != null  and paperName != ''"> and paper_name like concat('%', #{paperName}, '%')</if>
+            <if test="stdType != null  and stdType != ''"> and std_type = #{stdType}</if>
+            <if test="deptScope != null  and deptScope != ''"> and dept_scope = #{deptScope}</if>
+            <if test="scores != null "> and scores = #{scores}</if>
+            <if test="pubDate != null "> and pub_date = #{pubDate}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectNmisQcChkPaperById" parameterType="String" resultMap="NmisQcChkPaperResult">
+        <include refid="selectNmisQcChkPaperVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNmisQcChkPaper" parameterType="NmisQcChkPaper" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="String">
+            select nmis.nmis_seq_qc_chk_paper.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_qc_chk_paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="paperName != null">paper_name,</if>
+            <if test="stdType != null">std_type,</if>
+            <if test="deptScope != null">dept_scope,</if>
+            <if test="scores != null">scores,</if>
+            <if test="pubDate != null">pub_date,</if>
+            <if test="status != null">status,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="paperName != null">#{paperName},</if>
+            <if test="stdType != null">#{stdType},</if>
+            <if test="deptScope != null">#{deptScope},</if>
+            <if test="scores != null">#{scores},</if>
+            <if test="pubDate != null">#{pubDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisQcChkPaper" parameterType="NmisQcChkPaper">
+        update nmis.nmis_qc_chk_paper
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paperName != null">paper_name = #{paperName},</if>
+            <if test="stdType != null">std_type = #{stdType},</if>
+            <if test="deptScope != null">dept_scope = #{deptScope},</if>
+            <if test="scores != null">scores = #{scores},</if>
+            <if test="pubDate != null">pub_date = #{pubDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisQcChkPaperById" parameterType="String">
+        delete from nmis.nmis_qc_chk_paper where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisQcChkPaperByIds" parameterType="String">
+        delete from nmis.nmis_qc_chk_paper where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

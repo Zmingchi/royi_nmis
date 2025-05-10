@@ -1,0 +1,47 @@
+package com.ydl.nmis.schedule.service.impl;
+
+import com.ydl.nmis.schedule.domain.NmisScheCompDict;
+import com.ydl.nmis.schedule.domain.NmisScheContrast;
+import com.ydl.nmis.schedule.mapper.NmisScheContrastMapper;
+import com.ydl.nmis.schedule.service.NmisScheContrastService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+@Service
+public class NmisScheContrastServiceImpl implements NmisScheContrastService {
+
+    @Autowired
+    private NmisScheContrastMapper nmisScheContrastMapper;
+
+    /**
+     * 查询护理排班组合班次2
+     *
+     * @param id 护理排班组合班次主键
+     * @return 护理排班组合班次
+     */
+
+    @Override
+    public NmisScheContrast selectNmisScheContrastDictById(String id) {
+        return nmisScheContrastMapper.selectNmisScheContrastDictById(id);
+    }
+
+
+    /**
+     * 查询护理排班组合班次对照列表
+     *
+     * @param nmisScheContrast 护理排班组合班次
+     * @return 护理排班组合班次集合
+     */
+    @Override
+    public List<NmisScheContrast> selectNmisScheContrastList(NmisScheContrast nmisScheContrast) {
+        return nmisScheContrastMapper.selectNmisScheContrastList(nmisScheContrast);
+    }
+
+
+
+
+
+}

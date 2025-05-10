@@ -1,0 +1,437 @@
+package com.ydl.nmis.schedule.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ydl.common.annotation.Excel;
+import com.ydl.common.core.domain.BaseEntity;
+
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Member extends BaseEntity {
+    private String id;
+    private String name;
+    private String sNo;
+    private String nj;
+    private String workYear;
+    private String memo;
+
+    // 使用固定字段替代Map
+    private ScheDayData day1;
+    private ScheDayData day2;
+    private ScheDayData day3;
+    private ScheDayData day4;
+    private ScheDayData day5;
+    private ScheDayData day6;
+    private ScheDayData day7;
+
+    //
+    /** 主键 */
+    @Excel(name = "主键")
+    private String masterId;
+
+    /** 护理人员ID */
+    @Excel(name = "护理人员ID")
+    private String nurseId;
+
+    /** 护理人员姓名 */
+    @Excel(name = "护理人员姓名")
+    private String nurseName;
+
+    /** 科室ID */
+    @Excel(name = "科室ID")
+    private String deptId;
+
+    /** 科室名称 */
+    @Excel(name = "科室名称")
+    private String deptName;
+
+    /** 排班计划ID，引用NIS_SCHEDULE_PLAN中ID */
+    @Excel(name = "排班计划ID，引用NIS_SCHEDULE_PLAN中ID")
+    private String planId;
+
+    /** 创建人编码 */
+    @Excel(name = "创建人编码")
+    private String createId;
+
+    /** 创建人名称 */
+    @Excel(name = "创建人名称")
+    private String creator;
+
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date createDate;
+
+    /** 最后一次操作人编号 */
+    @Excel(name = "最后一次操作人编号")
+    private String modifyId;
+
+    /** 最后一次操作人姓名 */
+    @Excel(name = "最后一次操作人姓名")
+    private String modifier;
+
+    /** 最后更新时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "最后更新时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date modifyDate;
+
+    /** 所属单位 */
+    @Excel(name = "所属单位")
+    private String unitCode;
+    /** 白班工时 */
+    @Excel(name = "白班工时")
+    private Long hours1;
+    /** 夜班工时 */
+    @Excel(name = "夜班工时")
+    private Long hours2;
+    /** 假期工时 */
+    @Excel(name = "假期工时")
+    private Long hours3;
+    /** 休息工时 */
+    @Excel(name = "休息工时")
+    private Long hours4;
+    /** 其他工时 */
+    @Excel(name = "其他工时")
+    private Long hours5;
+    /** 累计加扣班 */
+    @Excel(name = "累计加扣班")
+    private Long hours6;
+    /** 累计存假 */
+    @Excel(name = "累计存假")
+    private Long hours7;
+    /** 年假 */
+    @Excel(name = "年假")
+    private Long hours8;
+    /** 总工时 */
+    @Excel(name = "总工时")
+    private Long hours9;
+
+    // 添加获取某天数据的方法
+    public ScheDayData getDayData(String dayType) {
+        switch (dayType) {
+            case "day1": return getDay1();
+            case "day2": return getDay2();
+            case "day3": return getDay3();
+            case "day4": return getDay4();
+            case "day5": return getDay5();
+            case "day6": return getDay6();
+            case "day7": return getDay7();
+            default: throw new IllegalArgumentException("无效的dayType: " + dayType);
+        }
+    }
+
+/*    // 可选：添加获取所有天数据的方法
+    public Map<String, ScheDayData> getAllDays() {
+        Map<String, ScheDayData> allDays = new LinkedHashMap<>();
+        allDays.put("day1", getDay1());
+        allDays.put("day2", getDay2());
+        allDays.put("day3", getDay3());
+        allDays.put("day4", getDay4());
+        allDays.put("day5", getDay5());
+        allDays.put("day6", getDay6());
+        allDays.put("day7", getDay7());
+        return allDays;
+    }*/
+
+
+
+    // 便捷方法：根据dayType设置对应天的数据
+    public void setDayData(String dayType, ScheDayData dayData) {
+        switch (dayType) {
+            case "day1": setDay1(dayData); break;
+            case "day2": setDay2(dayData); break;
+            case "day3": setDay3(dayData); break;
+            case "day4": setDay4(dayData); break;
+            case "day5": setDay5(dayData); break;
+            case "day6": setDay6(dayData); break;
+            case "day7": setDay7(dayData); break;
+            default: throw new IllegalArgumentException("无效的dayType: " + dayType);
+        }
+    }
+    // getters and setters...
+
+
+
+    public String getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(String masterId) {
+        this.masterId = masterId;
+    }
+
+    public String getNurseId() {
+        return nurseId;
+    }
+
+    public void setNurseId(String nurseId) {
+        this.nurseId = nurseId;
+    }
+
+    public String getNurseName() {
+        return nurseName;
+    }
+
+    public void setNurseName(String nurseName) {
+        this.nurseName = nurseName;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
+
+    public String getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(String createId) {
+        this.createId = createId;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifyId() {
+        return modifyId;
+    }
+
+    public void setModifyId(String modifyId) {
+        this.modifyId = modifyId;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
+    }
+
+    public Long getHours1() {
+        return hours1;
+    }
+
+    public void setHours1(Long hours1) {
+        this.hours1 = hours1;
+    }
+
+    public Long getHours2() {
+        return hours2;
+    }
+
+    public void setHours2(Long hours2) {
+        this.hours2 = hours2;
+    }
+
+    public Long getHours3() {
+        return hours3;
+    }
+
+    public void setHours3(Long hours3) {
+        this.hours3 = hours3;
+    }
+
+    public Long getHours4() {
+        return hours4;
+    }
+
+    public void setHours4(Long hours4) {
+        this.hours4 = hours4;
+    }
+
+    public Long getHours5() {
+        return hours5;
+    }
+
+    public void setHours5(Long hours5) {
+        this.hours5 = hours5;
+    }
+
+    public Long getHours6() {
+        return hours6;
+    }
+
+    public void setHours6(Long hours6) {
+        this.hours6 = hours6;
+    }
+
+    public Long getHours7() {
+        return hours7;
+    }
+
+    public void setHours7(Long hours7) {
+        this.hours7 = hours7;
+    }
+
+    public Long getHours8() {
+        return hours8;
+    }
+
+    public void setHours8(Long hours8) {
+        this.hours8 = hours8;
+    }
+
+    public Long getHours9() {
+        return hours9;
+    }
+
+    public void setHours9(Long hours9) {
+        this.hours9 = hours9;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getsNo() {
+        return sNo;
+    }
+
+    public void setsNo(String sNo) {
+        this.sNo = sNo;
+    }
+
+    public String getNj() {
+        return nj;
+    }
+
+    public void setNj(String nj) {
+        this.nj = nj;
+    }
+
+    public String getWorkYear() {
+        return workYear;
+    }
+
+    public void setWorkYear(String workYear) {
+        this.workYear = workYear;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public ScheDayData getDay1() {
+        return day1;
+    }
+
+    public void setDay1(ScheDayData day1) {
+        this.day1 = day1;
+    }
+
+    public ScheDayData getDay2() {
+        return day2;
+    }
+
+    public void setDay2(ScheDayData day2) {
+        this.day2 = day2;
+    }
+
+    public ScheDayData getDay3() {
+        return day3;
+    }
+
+    public void setDay3(ScheDayData day3) {
+        this.day3 = day3;
+    }
+
+    public ScheDayData getDay4() {
+        return day4;
+    }
+
+    public void setDay4(ScheDayData day4) {
+        this.day4 = day4;
+    }
+
+    public ScheDayData getDay5() {
+        return day5;
+    }
+
+    public void setDay5(ScheDayData day5) {
+        this.day5 = day5;
+    }
+
+    public ScheDayData getDay6() {
+        return day6;
+    }
+
+    public void setDay6(ScheDayData day6) {
+        this.day6 = day6;
+    }
+
+    public ScheDayData getDay7() {
+        return day7;
+    }
+
+    public void setDay7(ScheDayData day7) {
+        this.day7 = day7;
+    }
+
+
+}

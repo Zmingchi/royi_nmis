@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-base/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-hr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-hr/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-schedule/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/nmis-schedule/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-quartz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-quartz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trunk/nmis/ydl-system/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

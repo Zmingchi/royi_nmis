@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.nmis.hr.mapper.NmisHrTrainingMapper">
+
+    <resultMap type="NmisHrTraining" id="NmisHrTrainingResult">
+        <result property="id"    column="id"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="trainingTitle"    column="training_title"    />
+        <result property="trainingWay"    column="training_way"    />
+        <result property="trainingDate"    column="training_date"    />
+        <result property="trainingHours"    column="training_hours"    />
+        <result property="examDate"    column="exam_date"    />
+        <result property="examWay"    column="exam_way"    />
+        <result property="theorySocre"    column="theory_socre"    />
+        <result property="operScore"    column="oper_score"    />
+        <result property="totalScore"    column="total_score"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="revision"    column="revision"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisHrTrainingVo">
+        select id, nurse_id, nurse_name, training_title, training_way, training_date, training_hours, exam_date, exam_way, theory_socre, oper_score, total_score, remark, del_flag, revision, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_hr_training
+    </sql>
+
+    <select id="selectNmisHrTrainingList" parameterType="NmisHrTraining" resultMap="NmisHrTrainingResult">
+        <include refid="selectNmisHrTrainingVo"/>
+        <where>
+            <if test="nurseId != null "> and nurse_id = #{nurseId}</if>
+            <if test="nurseName != null  and nurseName != ''"> and nurse_name like CONCAT(concat('%', #{nurseName}), '%')</if>
+            <if test="trainingTitle != null  and trainingTitle != ''"> and training_title = #{trainingTitle}</if>
+            <if test="trainingWay != null  and trainingWay != ''"> and training_way = #{trainingWay}</if>
+            <if test="trainingDate != null "> and training_date = #{trainingDate}</if>
+            <if test="trainingHours != null  and trainingHours != ''"> and training_hours = #{trainingHours}</if>
+            <if test="examDate != null "> and exam_date = #{examDate}</if>
+            <if test="examWay != null "> and exam_way = #{examWay}</if>
+            <if test="theorySocre != null "> and theory_socre = #{theorySocre}</if>
+            <if test="operScore != null "> and oper_score = #{operScore}</if>
+            <if test="totalScore != null "> and total_score = #{totalScore}</if>
+            <if test="revision != null "> and revision = #{revision}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+            --and  del_flag = 0
+        </where>
+    </select>
+
+    <select id="selectNmisHrTrainingById" parameterType="Long" resultMap="NmisHrTrainingResult">
+        <include refid="selectNmisHrTrainingVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNmisHrTraining" parameterType="NmisHrTraining" useGeneratedKeys="true" keyProperty="id">
+
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_hr_training.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_hr_training
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="trainingTitle != null">training_title,</if>
+            <if test="trainingWay != null">training_way,</if>
+            <if test="trainingDate != null">training_date,</if>
+            <if test="trainingHours != null">training_hours,</if>
+            <if test="examDate != null">exam_date,</if>
+            <if test="examWay != null">exam_way,</if>
+            <if test="theorySocre != null">theory_socre,</if>
+            <if test="operScore != null">oper_score,</if>
+            <if test="totalScore != null">total_score,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="revision != null">revision,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="trainingTitle != null">#{trainingTitle},</if>
+            <if test="trainingWay != null">#{trainingWay},</if>
+            <if test="trainingDate != null">#{trainingDate},</if>
+            <if test="trainingHours != null">#{trainingHours},</if>
+            <if test="examDate != null">#{examDate},</if>
+            <if test="examWay != null">#{examWay},</if>
+            <if test="theorySocre != null">#{theorySocre},</if>
+            <if test="operScore != null">#{operScore},</if>
+            <if test="totalScore != null">#{totalScore},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="revision != null">#{revision},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateNmisHrTraining" parameterType="NmisHrTraining">
+        update nmis.nmis_hr_training
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="trainingTitle != null">training_title = #{trainingTitle},</if>
+            <if test="trainingWay != null">training_way = #{trainingWay},</if>
+            <if test="trainingDate != null">training_date = #{trainingDate},</if>
+            <if test="trainingHours != null">training_hours = #{trainingHours},</if>
+            <if test="examDate != null">exam_date = #{examDate},</if>
+            <if test="examWay != null">exam_way = #{examWay},</if>
+            <if test="theorySocre != null">theory_socre = #{theorySocre},</if>
+            <if test="operScore != null">oper_score = #{operScore},</if>
+            <if test="totalScore != null">total_score = #{totalScore},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="revision != null">revision = #{revision},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisHrTrainingById" parameterType="Long">
+        delete from nmis.nmis_hr_training where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisHrTrainingByIds" parameterType="String">
+        delete from nmis.nmis_hr_training where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

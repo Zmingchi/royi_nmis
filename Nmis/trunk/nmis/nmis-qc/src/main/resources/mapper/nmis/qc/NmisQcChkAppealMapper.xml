@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.qc.mapper.NmisQcChkAppealMapper">
+    
+    <resultMap type="NmisQcChkAppeal" id="NmisQcChkAppealResult">
+        <result property="id"    column="id"    />
+        <result property="stdItemId"    column="std_item_id"    />
+        <result property="stdItemName"    column="std_item_name"    />
+        <result property="detailItemId"    column="detail_item_id"    />
+        <result property="detailItemName"    column="detail_item_name"    />
+        <result property="defaultScore"    column="default_score"    />
+        <result property="score"    column="score"    />
+        <result property="appealReason"    column="appeal_reason"    />
+        <result property="appealDate"    column="appeal_date"    />
+        <result property="appealNurseId"    column="appeal_nurse_id"    />
+        <result property="appealNurseName"    column="appeal_nurse_name"    />
+        <result property="checkUserAdvice"    column="check_user_advice"    />
+        <result property="finalAdvice"    column="final_advice"    />
+        <result property="finalStatus"    column="final_status"    />
+        <result property="stdId"    column="std_id"    />
+        <result property="paperId"    column="paper_id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisQcChkAppealVo">
+        select id, std_item_id, std_item_name, detail_item_id, detail_item_name, default_score, score, appeal_reason, appeal_date, appeal_nurse_id, appeal_nurse_name, check_user_advice, final_advice, final_status, std_id, paper_id, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_qc_chk_appeal
+    </sql>
+
+    <select id="selectNmisQcChkAppealList" parameterType="NmisQcChkAppeal" resultMap="NmisQcChkAppealResult">
+        <include refid="selectNmisQcChkAppealVo"/>
+        <where>  
+            <if test="stdItemId != null  and stdItemId != ''"> and std_item_id = #{stdItemId}</if>
+            <if test="stdItemName != null  and stdItemName != ''"> and std_item_name like concat('%', #{stdItemName}, '%')</if>
+            <if test="detailItemId != null  and detailItemId != ''"> and detail_item_id = #{detailItemId}</if>
+            <if test="detailItemName != null  and detailItemName != ''"> and detail_item_name like concat('%', #{detailItemName}, '%')</if>
+            <if test="defaultScore != null "> and default_score = #{defaultScore}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="appealReason != null  and appealReason != ''"> and appeal_reason = #{appealReason}</if>
+            <if test="appealDate != null "> and appeal_date = #{appealDate}</if>
+            <if test="appealNurseId != null  and appealNurseId != ''"> and appeal_nurse_id = #{appealNurseId}</if>
+            <if test="appealNurseName != null  and appealNurseName != ''"> and appeal_nurse_name like concat('%', #{appealNurseName}, '%')</if>
+            <if test="checkUserAdvice != null  and checkUserAdvice != ''"> and check_user_advice = #{checkUserAdvice}</if>
+            <if test="finalAdvice != null  and finalAdvice != ''"> and final_advice = #{finalAdvice}</if>
+            <if test="finalStatus != null  and finalStatus != ''"> and final_status = #{finalStatus}</if>
+            <if test="stdId != null  and stdId != ''"> and std_id = #{stdId}</if>
+            <if test="paperId != null  and paperId != ''"> and paper_id = #{paperId}</if>
+            <if test="createId != null  and createId != ''"> and create_id = #{createId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifyId != null  and modifyId != ''"> and modify_id = #{modifyId}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            <if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectNmisQcChkAppealById" parameterType="String" resultMap="NmisQcChkAppealResult">
+        <include refid="selectNmisQcChkAppealVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNmisQcChkAppeal" parameterType="NmisQcChkAppeal" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select nmis.nmis_seq_qc_chk_appeal.nextval as id from dual
+        </selectKey>
+        insert into nmis.nmis_qc_chk_appeal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="stdItemId != null">std_item_id,</if>
+            <if test="stdItemName != null">std_item_name,</if>
+            <if test="detailItemId != null">detail_item_id,</if>
+            <if test="detailItemName != null">detail_item_name,</if>
+            <if test="defaultScore != null">default_score,</if>
+            <if test="score != null">score,</if>
+            <if test="appealReason != null">appeal_reason,</if>
+            <if test="appealDate != null">appeal_date,</if>
+            <if test="appealNurseId != null">appeal_nurse_id,</if>
+            <if test="appealNurseName != null">appeal_nurse_name,</if>
+            <if test="checkUserAdvice != null">check_user_advice,</if>
+            <if test="finalAdvice != null">final_advice,</if>
+            <if test="finalStatus != null">final_status,</if>
+            <if test="stdId != null">std_id,</if>
+            <if test="paperId != null">paper_id,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="stdItemId != null">#{stdItemId},</if>
+            <if test="stdItemName != null">#{stdItemName},</if>
+            <if test="detailItemId != null">#{detailItemId},</if>
+            <if test="detailItemName != null">#{detailItemName},</if>
+            <if test="defaultScore != null">#{defaultScore},</if>
+            <if test="score != null">#{score},</if>
+            <if test="appealReason != null">#{appealReason},</if>
+            <if test="appealDate != null">#{appealDate},</if>
+            <if test="appealNurseId != null">#{appealNurseId},</if>
+            <if test="appealNurseName != null">#{appealNurseName},</if>
+            <if test="checkUserAdvice != null">#{checkUserAdvice},</if>
+            <if test="finalAdvice != null">#{finalAdvice},</if>
+            <if test="finalStatus != null">#{finalStatus},</if>
+            <if test="stdId != null">#{stdId},</if>
+            <if test="paperId != null">#{paperId},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisQcChkAppeal" parameterType="NmisQcChkAppeal">
+        update nmis.nmis_qc_chk_appeal
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stdItemId != null">std_item_id = #{stdItemId},</if>
+            <if test="stdItemName != null">std_item_name = #{stdItemName},</if>
+            <if test="detailItemId != null">detail_item_id = #{detailItemId},</if>
+            <if test="detailItemName != null">detail_item_name = #{detailItemName},</if>
+            <if test="defaultScore != null">default_score = #{defaultScore},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="appealReason != null">appeal_reason = #{appealReason},</if>
+            <if test="appealDate != null">appeal_date = #{appealDate},</if>
+            <if test="appealNurseId != null">appeal_nurse_id = #{appealNurseId},</if>
+            <if test="appealNurseName != null">appeal_nurse_name = #{appealNurseName},</if>
+            <if test="checkUserAdvice != null">check_user_advice = #{checkUserAdvice},</if>
+            <if test="finalAdvice != null">final_advice = #{finalAdvice},</if>
+            <if test="finalStatus != null">final_status = #{finalStatus},</if>
+            <if test="stdId != null">std_id = #{stdId},</if>
+            <if test="paperId != null">paper_id = #{paperId},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisQcChkAppealById" parameterType="String">
+        delete from nmis.nmis_qc_chk_appeal where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisQcChkAppealByIds" parameterType="String">
+        delete from nmis.nmis_qc_chk_appeal where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydl.plan.mapper.NmisWorkPlanMapper">
+    
+    <resultMap type="NmisWorkPlan" id="NmisWorkPlanResult">
+        <result property="id"    column="id"    />
+        <result property="planName"    column="plan_name"    />
+        <result property="planDate"    column="plan_date"    />
+        <result property="planType"    column="plan_type"    />
+        <result property="planContent"    column="plan_content"    />
+        <result property="planSummary"    column="plan_summary"    />
+        <result property="nurseId"    column="nurse_id"    />
+        <result property="nurseName"    column="nurse_name"    />
+        <result property="approverId"    column="approver_id"    />
+        <result property="approverName"    column="approver_name"    />
+        <result property="approveDate"    column="approve_date"    />
+        <result property="deptCode"    column="dept_code"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="planStatus"    column="plan_status"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="createId"    column="create_id"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifyId"    column="modify_id"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="unitCode"    column="unit_code"    />
+    </resultMap>
+
+    <sql id="selectNmisWorkPlanVo">
+        select id, plan_name, plan_date, plan_type, plan_content, plan_summary, nurse_id, nurse_name, approver_id, approver_name, approve_date, dept_code, dept_name, plan_status, order_num, create_id, creator, create_date, modify_id, modifier, modify_date, unit_code from nmis.nmis_work_plan
+    </sql>
+
+    <select id="selectNmisWorkPlanList" parameterType="NmisWorkPlan" resultMap="NmisWorkPlanResult">
+        <include refid="selectNmisWorkPlanVo"/>
+        <where>  
+            <if test="params.beginPlanDate != null and params.beginPlanDate != '' and params.endPlanDate != null and params.endPlanDate != ''"> and plan_date between to_date(#{params.beginPlanDate},'yyyy-MM-dd') and to_date(#{params.endPlanDate},'yyyy-MM-dd')</if>
+            <if test="params.nurseId != null  and params.nurseId != ''"> and nurse_id = #{params.nurseId}</if>
+            <if test="params.deptCode != null  and params.deptCode != ''"> and dept_code = #{params.deptCode}</if>
+            <if test="params.planStatus != null  and params.planStatus != ''">
+                and plan_status in
+                <foreach item="status" collection="params.planStatus.split(',')" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="params.planType != null  and params.planType != ''"> and plan_type = #{params.planType}</if>
+            order by create_date desc
+        </where>
+    </select>
+    
+    <select id="selectNmisWorkPlanById" parameterType="Long" resultMap="NmisWorkPlanResult">
+        <include refid="selectNmisWorkPlanVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNmisWorkPlan" parameterType="NmisWorkPlan" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            select nmis.seq_work_plan.nextval as id from DUAL
+        </selectKey>
+        insert into nmis.nmis_work_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="planName != null and planName != ''">plan_name,</if>
+            <if test="planDate != null">plan_date,</if>
+            <if test="planType != null">plan_type,</if>
+            <if test="planContent != null">plan_content,</if>
+            <if test="planSummary != null">plan_summary,</if>
+            <if test="nurseId != null">nurse_id,</if>
+            <if test="nurseName != null">nurse_name,</if>
+            <if test="approverId != null">approver_id,</if>
+            <if test="approverName != null">approver_name,</if>
+            <if test="approveDate != null">approve_date,</if>
+            <if test="deptCode != null">dept_code,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="planStatus != null">plan_status,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="creator != null">creator,</if>
+            create_date,
+            <if test="modifyId != null">modify_id,</if>
+            <if test="modifier != null">modifier,</if>
+            modify_date,
+            <if test="unitCode != null">unit_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="planName != null and planName != ''">#{planName},</if>
+            <if test="planDate != null">#{planDate},</if>
+            <if test="planType != null">#{planType},</if>
+            <if test="planContent != null">#{planContent},</if>
+            <if test="planSummary != null">#{planSummary},</if>
+            <if test="nurseId != null">#{nurseId},</if>
+            <if test="nurseName != null">#{nurseName},</if>
+            <if test="approverId != null">#{approverId},</if>
+            <if test="approverName != null">#{approverName},</if>
+            <if test="approveDate != null">#{approveDate},</if>
+            <if test="deptCode != null">#{deptCode},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="planStatus != null">#{planStatus},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="creator != null">#{creator},</if>
+            sysdate,
+            <if test="modifyId != null">#{modifyId},</if>
+            <if test="modifier != null">#{modifier},</if>
+            sysdate,
+            <if test="unitCode != null">#{unitCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNmisWorkPlan" parameterType="NmisWorkPlan">
+        update nmis.nmis_work_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planName != null and planName != ''">plan_name = #{planName},</if>
+            <if test="planDate != null">plan_date = #{planDate},</if>
+            <if test="planType != null">plan_type = #{planType},</if>
+            <if test="planContent != null">plan_content = #{planContent},</if>
+            <if test="planSummary != null">plan_summary = #{planSummary},</if>
+            <if test="nurseId != null">nurse_id = #{nurseId},</if>
+            <if test="nurseName != null">nurse_name = #{nurseName},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approverName != null">approver_name = #{approverName},</if>
+            <if test="approveDate != null">approve_date = #{approveDate},</if>
+            <if test="deptCode != null">dept_code = #{deptCode},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="planStatus != null">plan_status = #{planStatus},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            modify_date = sysdate,
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNmisWorkPlanById" parameterType="Long">
+        delete from nmis.nmis_work_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteNmisWorkPlanByIds" parameterType="String">
+        delete from nmis.nmis_work_plan where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

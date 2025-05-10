@@ -1,0 +1,65 @@
+package com.ydl.nmis.hr.service;
+
+
+import com.ydl.nmis.hr.domain.NmisHrUserEdu;
+
+import java.util.List;
+
+/**
+ * 护理人员教育信息Service接口
+ *
+ * @author ydl
+ * @date 2025-03-05
+ */
+
+public interface INmisHrUserEduService
+{
+    /**
+     * 查询护理人员教育信息
+     *
+     * @param id 护理人员教育信息主键
+     * @return 护理人员教育信息
+     */
+    public NmisHrUserEdu selectNmisHrUserEduById(Long id);
+
+    /**
+     * 查询护理人员教育信息列表
+     *
+     * @param nmisHrUserEdu 护理人员教育信息
+     * @return 护理人员教育信息集合
+     */
+    public List<NmisHrUserEdu> selectNmisHrUserEduList(NmisHrUserEdu nmisHrUserEdu);
+
+    /**
+     * 新增护理人员教育信息
+     *
+     * @param nmisHrUserEdu 护理人员教育信息
+     * @return 结果
+     */
+    public int insertNmisHrUserEdu(NmisHrUserEdu nmisHrUserEdu);
+
+    /**
+     * 修改护理人员教育信息
+     *
+     * @param nmisHrUserEdu 护理人员教育信息
+     * @return 结果
+     */
+    public int updateNmisHrUserEdu(NmisHrUserEdu nmisHrUserEdu);
+
+    /**
+     * 批量删除护理人员教育信息
+     *
+     * @param ids 需要删除的护理人员教育信息主键集合
+     * @return 结果
+     */
+    public int deleteNmisHrUserEduByIds(Long[] ids);
+
+    /**
+     * 删除护理人员教育信息信息
+     *
+     * @param id 护理人员教育信息主键
+     * @return 结果
+     */
+    public int deleteNmisHrUserEduById(Long id);
+}
+
